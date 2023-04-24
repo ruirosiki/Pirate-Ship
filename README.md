@@ -1,9 +1,9 @@
-## Pirate Ships
+# Pirate Ships
 
 A thematic pirates version of the classic strategy game battleship. Players will play against the computer to try and sink the computers pirate ships before the computer can sink their pirate ships.
 The player and computers ships are randomly placed at the beginning of the game. The player will start first and alternate turns with the computer. The player will choose a coordinate to attack by clicking on the square. The game will let the player know if the attack was a miss or a hit. If it’s the final hit on a ship, the game will let the player know that a ship was sunk. After the players turn, the computer will then take a turn. Play will alternate back and forth until a winner is determined. Once the game has ended, the player will be given the opportunity to reset the game and play it again.
 
-## User Stories for “Pirate Ships” a Battleship style game
+# User Stories for “Pirate Ships” a Battleship style game
 
 1. As a user, I want to see the turn order so that I know who’s turn it is.
 2. As a user, I want to click on a square to make a move.
@@ -13,41 +13,49 @@ The player and computers ships are randomly placed at the beginning of the game.
 6. As a user, I want to be able to replay the game because the game is fun.
 7. As a user, I want to see thematic text and visuals because it makes the game feel alive.
 
-## Technologies Used
+# Technologies Used
 
-HTML
-CSS
-JavaScript
+1. HTML
+2. CSS
+3. JavaScript
 
-## PseudoCode
+# Project Wireframe
 
-Required Constants
+[HTML Elements](Pirate-Ship/assets/Project 1\_ Pirate Ships-1-5.jpg)
+[Main Screen](Pirate-Ship/assets/Project 1\_ Pirate Ship-2-2.jpg)
+[Play Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-3-3.jpg)
+[Final Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-4-4.jpg)
+
+# PseudoCode
+
+## Required Constants
 
 1. Grid object
-   1.1) null for empty squares
-   1.2) 2 for enemy ship – color is same as null color
-   1.3) 1 for squares that have been hit – red color
-   1.4) 0 for ship location – brown color
-   1.5) -1 for squares that were a miss – blue color
+
+   - 1.1) null for empty squares
+   - 1.2) 2 for enemy ship – color is same as null color
+   - 1.3) 1 for squares that have been hit – red color
+   - 1.4) 0 for ship location – brown color
+   - 1.5) -1 for squares that were a miss – blue color
 
 2. Ship object
-   2.1) length (different sized ships),
-   2.2) hit count (number of hits the ship has. Initially set to 0.),
-   2.3) sunk to determine if the ship is sunk (boolean).
+   - 2.1) length (different sized ships),
+   - 2.2) hit count (number of hits the ship has. Initially set to 0.),
+   - 2.3) sunk to determine if the ship is sunk (boolean).
 3. Win condition when playerHits === maxHits
 4. maxHits which indicates the total number of hits for win. (10 hits)
 5. Message object to hold all the messages for message element
-   5.1) “Players Turn”
-   5.2) “Computers Turn”
-   5.3) “You hit a ship”
-   5.4) “Your ship was hit”
-   5.5) “You sunk a ship”
-   5.6) “Your ship was sunk”
-   5.7) “You sunk all the ships. Congrats you win!”
-   5.8) “All your ships are sunk. The computer wins”
-   5.9) “Press the play again button to have another go?”
+   - 5.1) “Players Turn”
+   - 5.2) “Computers Turn”
+   - 5.3) “You hit a ship”
+   - 5.4) “Your ship was hit”
+   - 5.5) “You sunk a ship”
+   - 5.6) “Your ship was sunk”
+   - 5.7) “You sunk all the ships. Congrats you win!”
+   - 5.8) “All your ships are sunk. The computer wins”
+   - 5.9) “Press the play again button to have another go?”
 
-State Variables
+## State Variables
 
 1. Player board array 10x10 grid
 2. Computer board array 10x10 grid
@@ -55,22 +63,22 @@ State Variables
 4. winner variable to determine if there is a winner.
 5. Ship location variable to track the location of the ships on the board???
 
-Element Variables
+## Element Variables
 
 1. Elements that represent the board.
 2. Message element to update turn order and win condition
 3. Play again button
    Upon loading the app should…
 4. Initialize the state variables
-   a. Initialize the board grids to all nulls to represent empty squares.
-   b. Initialize ships onto board for computer. Enemy ship squares should show as empty on initialization.
-   c. Initialize player ships onto player board.
-   d. Initialize turn variable to player
-   e. Initialize winner to null
+   - 4.1) Initialize the board grids to all nulls to represent empty squares.
+   - 4.2) Initialize ships onto board for computer. Enemy ship squares should show as empty on initialization.
+   - 4.3) Initialize player ships onto player board.
+   - 4.4) Initialize turn variable to player
+   - 4.5) Initialize winner to null
 5. Render those values to the page
 6. Wait for the user to click a square to make first move.
 
-Functions
+## Functions
 
 1. Player click
    a. Check if the square has already been clicked.
@@ -176,7 +184,7 @@ Functions
 
 IceBox Features
 
-1. Ability for players to place battleships
-2. Ability to play against another player
-3. Updated visuals to make the game more visually appealing
-4. Find treasure feature to heal one kit on battleship
+- [ ] Ability for players to place battleships
+- [ ] Ability to play against another player
+- [ ] Updated visuals to make the game more visually appealing
+- [ ] Find treasure feature to heal one kit on battleship

@@ -3,9 +3,91 @@
 }
 
 body {
+    background: url(/Pirate-Ship/images/map-background.jpeg) no-repeat center center fixed;
+    background-size: 100% 110%;
     font-family: 'Charmonman';
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 100px 75px 1fr 1fr 1fr 100px;
+    grid-template-areas:
+        "a a a b b b ."
+        ". f f b b b ."
+        ". c c e e e ."
+        ". c c e e e ."
+        ". d d e e e ."
+        ". . . . . . .";
 }
 
+/* .background-image {
+    background: url(/Pirate-Ship/images/map-background.jpeg) no-repeat center center fixed;
+    background-size: cover;
+} */
+
 header {
-    font-size: 400%;
+    font-size: 300%;
+    height: 75px;
+    grid-area: a;
+    margin-left: 10%;
+    align-self: top;
+}
+
+#tagline {
+    grid-area: f;
+    align-self: center;
+}
+
+#message {
+    grid-area: b;
+    justify-self: center;
+    margin: auto;
+    border: solid black;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 7vmin);
+    grid-template-rows: repeat(10, 7vmin);
+    grid-area: e;
+    justify-self: center;
+    margin-top: 30px;
+}
+
+.board>div {
+    height: 100%;
+    width: 100%;
+    border: solid black;
+    margin: 0;
+}
+
+#instructions {
+    grid-area: c;
+    /* margin: auto; */
+    font-size: 1.5em;
+    font-weight: bolder;
+    align-content: end;
+}
+
+ol {
+    margin-top: 5;
+}
+
+h2 {
+    margin-left: 50px;
+    margin-bottom: 0%;
+    text-decoration: underline;
+    justify-content: center;
+}
+
+#play-again {
+    grid-area: d;
+    border: solid burlywood;
+    border-radius: 20%;
+    background-color: rgb(182, 135, 64);
+    justify-self: center;
+    align-self: start;
+    /* margin-top: 6vmin;
+    margin-bottom: 3vmin; */
+    font-size: 3vmin;
+    color: antiquewhite;
+    font: 'charmonman';
 }

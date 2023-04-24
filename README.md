@@ -173,11 +173,11 @@ The player and computers ships are randomly placed at the beginning of the game.
       - Return
   - Repeat until all ships are placed.
 
-  12. Vertical ship placement
+13. Vertical ship placement
 
-- 12.1) generate a start coordinate for ship placement
-- 12.2) check if coordinate is already occupied (does not equal null)
-- 12.3) check to the right of the coordinate for legal placement. (row coordinate plus ship length minus 1)
+- 13.1) generate a start coordinate for ship placement
+- 13.2) check if coordinate is already occupied (does not equal null)
+- 13.3) check to the right of the coordinate for legal placement. (row coordinate plus ship length minus 1)
   - If the coordinate is out of bounds (greater than the length of the column) or coordinate is occupied
     - Return
   - Generate a new start coordinate and repeat

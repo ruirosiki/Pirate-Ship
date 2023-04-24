@@ -21,10 +21,10 @@ The player and computers ships are randomly placed at the beginning of the game.
 
 # Project Wireframe
 
-[HTML Elements](Pirate-Ship/assets/Project 1\_ Pirate Ships-1-5.jpg)
-[Main Screen](Pirate-Ship/assets/Project 1\_ Pirate Ship-2-2.jpg)
-[Play Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-3-3.jpg)
-[Final Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-4-4.jpg)
+![HTML Elements](Pirate-Ship/assets/Project 1\_ Pirate Ships-1-5.jpg)
+![Main Screen](Pirate-Ship/assets/Project 1\_ Pirate Ship-2-2.jpg)
+![Play Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-3-3.jpg)
+![Final Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-4-4.jpg)
 
 # PseudoCode
 
@@ -81,108 +81,118 @@ The player and computers ships are randomly placed at the beginning of the game.
 ## Functions
 
 1. Player click
-   a. Check if the square has already been clicked.
-   i. If the square has a value other than null, player cannot click on it.
-   b. Hit function
-   c. Ship sunk function
-   d. Check win condition function
-   e. Update turn order variable
-   f. Render board
+   - 1.1) Check if the square has already been clicked.
+     - If the square has a value other than null, player cannot click on it.
+   - 1.2) Hit function
+   - 1.3) Ship sunk function
+   - 1.4) Check win condition function
+   - 1.5) Update turn order variable
+   - 1.6) Render board
 2. Replay Button Click
-   a. Run init function to reinitialize the game to beginning state
+   - 2.1) Run init function to reinitialize the game to beginning state
 3. Render function
-   a. Render the board
-   b. Render the player ships
-   c. Render the computer ships
-   d. Render the current message
-   e. Render play again button
-4. Render board  
-   a. renders the initial board state
-   b. array of 100 elements (0-99) initially containing all nulls.
+   - 3.1) Render the board
+   - 3.2) Render the player ships
+   - 3.3) Render the computer ships
+   - 3.4) Render the current message
+   - 3.5) Render play again button
+4. Render board
+   - 4.1) renders the initial board state
+   - 4.2) array of 100 elements (0-99) initially containing all nulls.
 5. Render ships
-   a. Only renders on first call to render.
-   b. Renders both player and computer ships to the board.
-   c. Uses the generate ship location’s function or renders the hard coded ship locations.
+   - 5.1) Only renders on first call to render.
+   - 5.2) Renders both player and computer ships to the board.
+   - 5.3) Uses the generate ship location’s function or renders the hard coded ship locations.
 6. Render message –
-   a. initializes to players turn message
-   b. updates throughout the game depending on current action – see message object.
+   - 6.1) initializes to players turn message
+   - 6.2) updates throughout the game depending on current action – see message object.
 7. Computer Move – while loop (while randomly generated coordinate does not equal null generate a random coordinate until we find one that is null)
-   a. Generate a random coordinate
-   b. Check if random coordinate is null
-   i. If it is null, then the location is legal
 
-1) Call the hit function
-2) Return to break the loop.
-   c. Change turn order
-   d. Render the updated game state
+   - 7.1) Generate a random coordinate
+   - 7.2) Check if random coordinate is null
+     - If it is null, then the location is legal
+     - Call the hit function
+     - Return to break the loop.
+   - 7.3) Change turn order
+   - 7.4) Render the updated game state
 
 8. Generate ship locations –
-   a. Track how many ships have been placed.
-   i. horizontal ship placement – should be function?
 
-1) generate a start coordinate for ship placement
-2) check if coordinate is already occupied (does not equal null)
-3) check to the right of the coordinate for legal placement. (Column coordinate plus ship length minus 1)
-   a. If the coordinate is out of bounds (greater than the length of the row) or coordinate is occupied
-   i. Return
-   ii. Generate a new start coordinate and repeat
-   b. If the coordinate is in bounds
-   i. If ship length is greater than 2
-4) Check one more to the right of coordinate (column coord inate plus 2, etc.)
-   a. If it is out of bounds or occupied,
-   i. Return
-   ii. Generate a new coordinate
-5) If it is a legal placement (all coordinates are in bounds and not occupied.
-   a. Change value of coordinate to player (0) or computer (2) – use loop
-   b. Return
-   c. Repeat until all ships are placed.
-   ii. Vertical ship placement – should be own function?
-6) generate a start coordinate for ship placement
-7) check if coordinate is already occupied (does not equal null)
-8) check to the right of the coordinate for legal placement. (Row coordinate plus ship length minus 1)
-   a. If the coordinate is out of bounds (greater than the length of the column) or coordinate is occupied
-   i. Return
-   ii. Generate a new start coordinate and repeat
-   b. If the coordinate is in bounds
-   i. If ship length is greater than 2
-9) Check one more to the right of coordinate (row coordinate plus 2, etc.)
-   a. If it is out of bounds or occupied,
-   i. Return
-   ii. Generate a new coordinate
-   ii. If it is a legal placement (all coordinates are in bounds and not occupied.
-10) Change value of coordinates for ships values to player(0) or computer(2)
-11) Return
+   - 8.1) Track how many ships have been placed.
+   - 8.2) Call horizontal ship placement function
+   - 8.3) Call vertical ship placement function
+   - 8.4) Return
 
 9. Check win condition.
-   a. Are all ships sunk?
-   b. If yes, there is a winner
-   i. Message updates to “Winners message”
 
-1) Winner variable is true
-2) Play again button displays
-   ii. else
-3) return
-   c. Render play again button
+   - 9.1) Are all ships sunk?
+   - 9.2) If yes, there is a winner
+     - Message updates to “Winners message”
+       - Winner variable is true
+       - Play again button displays
+     - else
+       - return
+     - Render play again button
 
 10. Hit function:
-    a. Check if square has a ship value in it.
-    b. If square does have ship value
-    i. Message updates to “Hit”
-    ii. Board square updates to red color
-    iii. hit tracker updates with new hit
-    iv. check win condition
-    c. else
-    i. message updates to “miss”
-    ii. board square updates to missed color – blue
+    - 10.1) Check if square has a ship value in it.
+    - 10.2) If square does have ship value
+      - Message updates to “Hit”
+      - Board square updates to red color
+      - hit tracker updates with new hit
+      - check win condition
+    - 10.3) else
+      - message updates to “miss”
+      - board square updates to missed color – blue
 11. Ship sunk function
-    a. Take coordinate of last hit
-    b. Determine which ship the hit belongs to
-    c. Start at the beginning of the ship coordinates
-    d. Cycle through each coordinate of the ship
-    i. If ship has any null then the ship is not sunk
-    ii. Else if the ship has all 1’s for a value then the ship is sunk.
 
-IceBox Features
+    - 11.1) Take coordinate of last hit
+    - 11.2) Determine which ship the hit belongs to
+    - 11.3) Start at the beginning of the ship coordinates
+    - 11.4) Cycle through each coordinate of the ship
+    - 11.5) If ship has any null then the ship is not sunk
+      - Else if the ship has all 1’s for a value then the ship is sunk.
+
+12. Horizontal ship placement
+
+- 12.1) generate a start coordinate for ship placement
+- 12.2) check if coordinate is already occupied (does not equal null)
+- 12.3) check to the right of the coordinate for legal placement. (Column coordinate plus ship length minus 1)
+
+  - If the coordinate is out of bounds (greater than the length of the row) or coordinate is occupied
+    - Return
+  - Generate a new start coordinate and repeat
+  - If the coordinate is in bounds
+    - If ship length is greater than 2
+      - Check one more to the right of coordinate (column coordinate plus 2, etc.)
+        - If it is out of bounds or occupied,
+        - Return
+      - Generate a new coordinate
+    - If it is a legal placement (all coordinates are in bounds and not occupied)
+      - Change value of coordinate to player (0) or computer (2) – use loop
+      - Return
+  - Repeat until all ships are placed.
+
+  12. Vertical ship placement
+
+- 12.1) generate a start coordinate for ship placement
+- 12.2) check if coordinate is already occupied (does not equal null)
+- 12.3) check to the right of the coordinate for legal placement. (row coordinate plus ship length minus 1)
+  - If the coordinate is out of bounds (greater than the length of the column) or coordinate is occupied
+    - Return
+  - Generate a new start coordinate and repeat
+  - If the coordinate is in bounds
+    - If ship length is greater than 2
+      - Check one more to the right of coordinate (row coordinate plus 2, etc.)
+        - If it is out of bounds or occupied,
+        - Return
+      - Generate a new coordinate
+    - If it is a legal placement (all coordinates are in bounds and not occupied)
+      - Change value of coordinate to player (0) or computer (2) – use loop
+      - Return
+  - Repeat until all ships are placed.
+
+## IceBox Features
 
 - [ ] Ability for players to place battleships
 - [ ] Ability to play against another player

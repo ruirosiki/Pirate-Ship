@@ -21,10 +21,10 @@ The player and computers ships are randomly placed at the beginning of the game.
 
 # Project Wireframe
 
-![HTML Elements](Pirate-Ship/assets/Project 1\_ Pirate Ships-1-5.jpg)
-![Main Screen](Pirate-Ship/assets/Project 1\_ Pirate Ship-2-2.jpg)
-![Play Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-3-3.jpg)
-![Final Screen](Pirate-Ship/assets/Project 1\_ Pirate Ships-4-4.jpg)
+![HTML Elements](https://i.imgur.com/9Vnkr84.jpg)
+![Main Screen](https://i.imgur.com/yUwWnkH.jpg)
+![Play Screen](https://i.imgur.com/Xp58f7P.jpg)
+![Final Screen](https://i.imgur.com/KV0ZDqs.jpg)
 
 # PseudoCode
 

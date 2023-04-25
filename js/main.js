@@ -113,11 +113,10 @@ function renderBoard() {
       for (j = 0; j < playerBoard.board[i].length; j++) {
         boardEls[i][j] = playerBoard.board[i][j];
         // boardEls.innerHTML = playerBoard.board[i][j];
+        // console.log(boardEls);
       }
     }
-    console.log(computerBoard);
   }
-  console.log(boardEls[0][0]);
 }
 
 //update message with turn order
@@ -132,7 +131,35 @@ function renderTurnOrder() {
 //handles player click -- getting the square index correctly
 function playerClick(event) {
   const squareIndex = boardEls.indexOf(event.target);
-  if (squareIndex === 99) {
-    console.log(squareIndex);
-  } else return;
+  console.log(squareIndex);
 }
+
+//computer move
+
+//ship hit
+function hit() {}
+
+//generates and places horizontal ship randomly.
+//generate a starting ship coordinate
+//check if the move is legal
+//if it is legal, splice into boardArray
+function horizontalPlacement(board, ship) {
+  let colCoordinate = Math.floor(Math.random() * 10);
+  let rowCoordinate = Math.floor(Math.random() * 10);
+  let shipPlacementCoordinate = colCoordinate + rowCoordinate;
+  console.log(rowCoordinate, colCoordinate);
+  console.log(ship.length);
+  if (
+    board[rowCoordinate][colCoordinate] === null &&
+    colCoordinate <= board.length - ship.length
+  ) {
+    for (i = 0; i < ship.length; i++) {
+      board[rowCoordinate][colCoordinate + i] = BOARD_SQUARE[0];
+    }
+  } else horizontalPlacement(board, ship);
+}
+horizontalPlacement(playerBoard.board, dinghy);
+horizontalPlacement(playerBoard.board, galleon);
+// horizontalPlacement(computerBoard.board, dinghy);
+console.log("pboard", playerBoard);
+// console.log("cboard", computerBoard);

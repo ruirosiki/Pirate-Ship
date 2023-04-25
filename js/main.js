@@ -8,18 +8,19 @@ const PLAYERS = {
 
 //determines the board squares status
 const BOARD_SQUARE = {
-  null: "transparent", //empty square
-  2: "transparent", //computer square
-  1: "red", //hit
-  0: "brown", //player ship location
-  "-1": "blue", //miss
+  0: null, //empty square
+  2: 2, //computer square
+  1: "yes", //player ship location
+  "-1": -1, //miss
+  "-2": -2, //hit ship
 };
 //defines a class for ship - allows to create ships of different lengths
 class Ship {
-  constructor(length, hitCount, isSunk) {
+  constructor(length, hitCount, isSunk, direction) {
     this.length = length;
     this.hitCount = hitCount;
     this.isSunk = false;
+    this.direction = direction;
   }
 }
 //defines a class for the board - allows creation of separate boards (computer and player or eventually player1 and player2)
@@ -40,10 +41,10 @@ class Board {
   }
 }
 //
-const dinghy = new Ship(2, 0, false);
-const sloop = new Ship(3, 0, false);
-const galleon = new Ship(4, 0, false);
-const queenAnnesRevenge = new Ship(5, 0, false);
+const dinghy = new Ship(2, 0, false, 1);
+const sloop = new Ship(3, 0, false, 0);
+const galleon = new Ship(4, 0, false, 1);
+const queenAnnesRevenge = new Ship(5, 0, false, 0);
 // console.log(dinghy);
 // console.log(sloop);
 // console.log(galleon);
@@ -57,6 +58,8 @@ const MESSAGES = {
   cTurn: "Computer's Turn",
   pHit: "You hit a ship",
   cHit: "Your ship was hit",
+  pMiss: "You missed"
+  cMiss: "The computer missed"
   pSunk: "You sunk a ship",
   cSunk: "Your ship was sunk",
   pWin: "You sunk all the ships. Congrats you win!",
@@ -136,30 +139,60 @@ function playerClick(event) {
 
 //computer move
 
-//ship hit
-function hit() {}
-
 //generates and places horizontal ship randomly.
 //generate a starting ship coordinate
 //check if the move is legal
-//if it is legal, splice into boardArray
-function horizontalPlacement(board, ship) {
+//if it is legal, add into boardArray
+// console.log(ship.length);
+// let shipPlacementCoordinate = colCoordinate + rowCoordinate;
+
+function horizontalPlacement(board, ship, squareValue) {
+  //generate two random start coordinates
   let colCoordinate = Math.floor(Math.random() * 10);
   let rowCoordinate = Math.floor(Math.random() * 10);
-  let shipPlacementCoordinate = colCoordinate + rowCoordinate;
+  let isValid = false;
   console.log(rowCoordinate, colCoordinate);
-  console.log(ship.length);
+  //checks to ensure that start coordinates will not place ship off board
   if (
     board[rowCoordinate][colCoordinate] === null &&
     colCoordinate <= board.length - ship.length
   ) {
     for (i = 0; i < ship.length; i++) {
-      board[rowCoordinate][colCoordinate + i] = BOARD_SQUARE[0];
+      //causing to skip after trying ship length times
+      if (board[rowCoordinate][colCoordinate + i] === null) {
+        isValid = true;
+      } else {
+        isValid = false;
+        return;
+      }
     }
-  } else horizontalPlacement(board, ship);
+    if (isValid === true) {
+      for (j = 0; j < ship.length; j++) {
+        board[rowCoordinate][colCoordinate + j] = BOARD_SQUARE[squareValue];
+      }
+    }
+  } else horizontalPlacement(board, ship, squareValue);
 }
-horizontalPlacement(playerBoard.board, dinghy);
-horizontalPlacement(playerBoard.board, galleon);
-// horizontalPlacement(computerBoard.board, dinghy);
+horizontalPlacement(playerBoard.board, dinghy, 1);
+horizontalPlacement(playerBoard.board, sloop, 1);
+horizontalPlacement(playerBoard.board, galleon, 1);
+horizontalPlacement(playerBoard.board, queenAnnesRevenge, 1);
+horizontalPlacement(computerBoard.board, dinghy, 2);
 console.log("pboard", playerBoard);
-// console.log("cboard", computerBoard);
+console.log("cboard", computerBoard);
+
+//ship hit
+function hit() {
+  //does square have a value === to a ship?
+  //if it does, update messageEl t0 hit
+  //change the color of the clicked board square to red
+  //update the hit tracker
+  //check the win condition
+  //otherwise
+  else {
+    messageEl.innerText = MESSAGES.pMiss
+    
+  }
+  //update messageEl to miss
+  //change the color of the square to blue
+}

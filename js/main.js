@@ -8,11 +8,11 @@ const PLAYERS = {
 
 //determines the board squares status
 const BOARD_SQUARE = {
-  null: "transparent",
-  2: "transparent",
-  1: "red",
-  0: "brown",
-  "-1": "blue",
+  null: "transparent", //empty square
+  2: "transparent", //computer square
+  1: "red", //hit
+  0: "brown", //player ship location
+  "-1": "blue", //miss
 };
 //defines a class for ship - allows to create ships of different lengths
 class Ship {
@@ -68,8 +68,6 @@ const MESSAGES = {
 //STATE VARIABLES
 let playerBoard;
 let computerBoard;
-// console.log(playerBoard);
-// console.log(computerBoard);
 let turn;
 let winner;
 let shipLocation;
@@ -95,18 +93,46 @@ function init() {
   computerBoard = new Board();
   turn = PLAYERS.player;
   winner = null;
-  // render();
+  render();
 }
-
-// console.log(winner);
-// console.log(playerBoard);
-// console.log(computerBoard);
-
+//render
+function render() {
+  renderTurnOrder();
+  renderBoard();
+}
 //map the player board to the boardEls
-renderBoard() {
-
+function renderBoard() {
+  if (turn === "player") {
+    for (i = 0; i < computerBoard.board.length; i++) {
+      for (j = 0; j < computerBoard.board[i].length; j++) {
+        boardEls[i][j] = computerBoard.board[i][j];
+      }
+    }
+  } else if (turn === "computer") {
+    for (i = 0; i < playerBoard.board.length; i++) {
+      for (j = 0; j < playerBoard.board[i].length; j++) {
+        boardEls[i][j] = playerBoard.board[i][j];
+        // boardEls.innerHTML = playerBoard.board[i][j];
+      }
+    }
+    console.log(computerBoard);
+  }
+  console.log(boardEls[0][0]);
 }
 
+//update message with turn order
+function renderTurnOrder() {
+  if (turn === "player") {
+    messageEl.innerText = MESSAGES.pTurn;
+  } else {
+    messageEl.innerText = MESSAGES.cTurn;
+  }
+}
+
+//handles player click -- getting the square index correctly
 function playerClick(event) {
-  console.log(event.target);
+  const squareIndex = boardEls.indexOf(event.target);
+  if (squareIndex === 99) {
+    console.log(squareIndex);
+  } else return;
 }

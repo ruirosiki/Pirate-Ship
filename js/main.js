@@ -1,5 +1,11 @@
 // REQUIRED CONSTANTS
 
+//players constant
+const PLAYERS = {
+  player: "player",
+  computer: "computer",
+};
+
 //determines the board squares status
 const BOARD_SQUARE = {
   null: "transparent",
@@ -14,6 +20,23 @@ class Ship {
     this.length = length;
     this.hitCount = hitCount;
     this.isSunk = false;
+  }
+}
+//defines a class for the board - allows creation of separate boards (computer and player or eventually player1 and player2)
+class Board {
+  constructor() {
+    this.board = [
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null, null, null],
+    ];
   }
 }
 //
@@ -40,4 +63,50 @@ const MESSAGES = {
   cWin: "All your ships are sunk. The computer wins",
   playAgain: "Press the play again button to have another go!",
 };
-console.log(MESSAGES.cTurn);
+// console.log(MESSAGES.cTurn);
+
+//STATE VARIABLES
+let playerBoard;
+let computerBoard;
+// console.log(playerBoard);
+// console.log(computerBoard);
+let turn;
+let winner;
+let shipLocation;
+
+//CACHED DOM ELEMENTS
+
+const messageEl = document.querySelector("#message");
+// console.log(messageEl);
+const playAgainButton = document.querySelector("button");
+// console.log(playAgainButton);
+const boardEls = [...document.querySelectorAll("#board > div")];
+// console.log(boardEls);
+
+//Event listeners
+document.getElementById("board").addEventListener("click", playerClick);
+document.getElementById("play-again").addEventListener("click", init);
+
+//functions
+init();
+
+function init() {
+  playerBoard = new Board();
+  computerBoard = new Board();
+  turn = PLAYERS.player;
+  winner = null;
+  // render();
+}
+
+// console.log(winner);
+// console.log(playerBoard);
+// console.log(computerBoard);
+
+//map the player board to the boardEls
+renderBoard() {
+
+}
+
+function playerClick(event) {
+  console.log(event.target);
+}

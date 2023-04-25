@@ -45,10 +45,6 @@ const dinghy = new Ship(2, 0, false, 1);
 const sloop = new Ship(3, 0, false, 0);
 const galleon = new Ship(4, 0, false, 1);
 const queenAnnesRevenge = new Ship(5, 0, false, 0);
-// console.log(dinghy);
-// console.log(sloop);
-// console.log(galleon);
-// console.log(queenAnnesRevenge);
 
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
@@ -56,12 +52,9 @@ const MAX_HITS = 17;
 const MESSAGES = {
   pTurn: "Player's Turn",
   cTurn: "Computer's Turn",
-  pHit: "You hit a ship",
-  cHit: "Your ship was hit",
-  pMiss: "You missed"
-  cMiss: "The computer missed"
-  pSunk: "You sunk a ship",
-  cSunk: "Your ship was sunk",
+  hit: "It's a hit!",
+  miss: "It's a miss",
+  sunk: "The ship is sunk",
   pWin: "You sunk all the ships. Congrats you win!",
   cWin: "All your ships are sunk. The computer wins",
   playAgain: "Press the play again button to have another go!",
@@ -104,23 +97,28 @@ function render() {
   renderBoard();
 }
 //map the player board to the boardEls
+//javascript hide/toggle element element.style.display = none.
 function renderBoard() {
-  if (turn === "player") {
-    for (i = 0; i < computerBoard.board.length; i++) {
-      for (j = 0; j < computerBoard.board[i].length; j++) {
-        boardEls[i][j] = computerBoard.board[i][j];
-      }
-    }
-  } else if (turn === "computer") {
-    for (i = 0; i < playerBoard.board.length; i++) {
-      for (j = 0; j < playerBoard.board[i].length; j++) {
-        boardEls[i][j] = playerBoard.board[i][j];
-        // boardEls.innerHTML = playerBoard.board[i][j];
-        // console.log(boardEls);
-      }
-    }
-  }
+  // if (turn === "player") {
+  //   for (i = 0; i < computerBoard.board.length; i++) {
+  //     for (j = 0; j < computerBoard.board[i].length; j++) {
+  //       boardEls[i][j] = computerBoard.board[i][j];
+  //     }
+  //   }
+  // } else if (turn === "computer") {
+  //   for (i = 0; i < playerBoard.board.length; i++) {
+  //     for (j = 0; j < playerBoard.board[i].length; j++) {
+  //       boardEls[i][j] = playerBoard.board[i][j];
+  //     }
+  //   }
+  // }
 }
+// function renderBoard() {
+//   playerBoard.board.forEach((cellValue, squareIndex) => {
+//     const cellId = `s${squareIndex}`;
+//     const cellEl = document.getElementById(cellId);
+//   });
+// }
 
 //update message with turn order
 function renderTurnOrder() {
@@ -134,17 +132,33 @@ function renderTurnOrder() {
 //handles player click -- getting the square index correctly
 function playerClick(event) {
   const squareIndex = boardEls.indexOf(event.target);
-  console.log(squareIndex);
+  let rowIndex = (squareIndex - (squareIndex % 10)) / 10;
+  let colIndex = squareIndex % 10;
+  if (computerBoard.board[rowIndex][colIndex] === null) {
+    messageEl.innerText = MESSAGES.miss;
+    computerBoard.board[rowIndex][colIndex] = -1;
+  } else if (computerBoard.board[rowIndex][colIndex] === 2) {
+    messageEl.innerText = MESSAGES.hit;
+    computerBoard.board[rowIndex][colIndex] = -2;
+  }
+  console.log(computerBoard.board);
+  turn = PLAYERS.computer;
+  setTimeout(() => {
+    render();
+  }, 3000);
 }
 
 //computer move
 
-//generates and places horizontal ship randomly.
-//generate a starting ship coordinate
-//check if the move is legal
+// function computerMove() {
+//   let hitRow = Math.floor(Math.random() * 10);
+//   let hitCol = Math.floor(Math.random() * 10);
+//   while (playerBoard.board[hitRow][hitCol] !=== null) {
+
+//   }
+// }
+
 //if it is legal, add into boardArray
-// console.log(ship.length);
-// let shipPlacementCoordinate = colCoordinate + rowCoordinate;
 
 function horizontalPlacement(board, ship, squareValue) {
   //generate two random start coordinates
@@ -152,13 +166,11 @@ function horizontalPlacement(board, ship, squareValue) {
   let rowCoordinate = Math.floor(Math.random() * 10);
   let isValid = false;
   console.log(rowCoordinate, colCoordinate);
-  //checks to ensure that start coordinates will not place ship off board
   if (
     board[rowCoordinate][colCoordinate] === null &&
     colCoordinate <= board.length - ship.length
   ) {
     for (i = 0; i < ship.length; i++) {
-      //causing to skip after trying ship length times
       if (board[rowCoordinate][colCoordinate + i] === null) {
         isValid = true;
       } else {
@@ -189,10 +201,9 @@ function hit() {
   //update the hit tracker
   //check the win condition
   //otherwise
-  else {
-    messageEl.innerText = MESSAGES.pMiss
-    
-  }
+  // else {
+  //   messageEl.innerText = MESSAGES.miss;
+  // }
   //update messageEl to miss
   //change the color of the square to blue
 }

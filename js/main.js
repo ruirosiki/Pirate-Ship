@@ -46,11 +46,7 @@ class Board {
     ];
   }
 }
-//
-// const dinghy = new Ship(2, 0, false);
-// const sloop = new Ship(3, 0, false);
-// const galleon = new Ship(4, 0, false);
-// const queenAnnesRevenge = new Ship(5, 0, false);
+
 console.log(SHIPS.dinghy);
 console.log(SHIPS.sloop);
 console.log(SHIPS.galleon);
@@ -96,6 +92,8 @@ init();
 function init() {
   playerBoard = new Board();
   computerBoard = new Board();
+  initPlayerBoard();
+  initComputerBoard();
   turn = PLAYERS.player;
   winner = false;
   render();
@@ -115,7 +113,7 @@ function render() {
 
 function renderBoard() {
   if (turn === "player") {
-    playerBoard.board.forEach((rowArray, squareIndex) => {
+    computerBoard.board.forEach((rowArray, squareIndex) => {
       rowArray.forEach((cellValue, colIndex) => {
         const cellId = `s${squareIndex}${colIndex}`;
         const cellEl = document.getElementById(cellId);
@@ -169,13 +167,15 @@ function playerClick(event) {
   if (computerBoard.board[rowIndex][colIndex] === null) {
     messageEl.innerText = MESSAGES.miss;
     computerBoard.board[rowIndex][colIndex] = -1;
+    renderBoard();
   } else if (computerBoard.board[rowIndex][colIndex] === 2) {
     messageEl.innerText = MESSAGES.hit;
     computerBoard.board[rowIndex][colIndex] = -2;
-    isSunk(computerBoard.board, squareIndex);
+    // isSunk(computerBoard.board, squareIndex);
+    renderBoard();
   }
   console.log(computerBoard.board);
-  isSunk(squareIndex);
+  // isSunk(squareIndex);
   turn = PLAYERS.computer;
   setTimeout(() => {
     render();
@@ -244,22 +244,22 @@ function isHit(clickedSquare) {
 }
 
 //sunk function
-function isSunk(board, clickedSquare) {
-  let start = clickedSquare;
-  let rowIndex = (start - (start % 10)) / 10;
-  let colIndex = start % 10;
-  checkLeft(board, clickedSquare);
-  checkRight(board, clickedSquare);
-  //if the click is a hit
-  //check immediately to the left
-  //if is null, 1 or -1 check to the right
-  //else if is -2
-  //repeat left check
-  //check to right of click
-  //if is null, 1, or -1 check to the left
-  //else if it is -2,
-  //repeat right check
-}
+// function isSunk(board, clickedSquare) {
+//   let start = clickedSquare;
+//   let rowIndex = (start - (start % 10)) / 10;
+//   let colIndex = start % 10;
+//   checkLeft(board, clickedSquare);
+//   checkRight(board, clickedSquare);
+//if the click is a hit
+//check immediately to the left
+//if is null, 1 or -1 check to the right
+//else if is -2
+//repeat left check
+//check to right of click
+//if is null, 1, or -1 check to the left
+//else if it is -2,
+//repeat right check
+// }
 
 // function checkLeft(board, clickedSquare) {
 //   let start = clickedSquare;
@@ -292,15 +292,15 @@ function isSunk(board, clickedSquare) {
 // }
 
 //render playerBoard and computer board
-function renderPlayerBoard() {
+function initPlayerBoard() {
   horizontalPlacement(playerBoard.board, SHIPS.dinghy, 1);
   horizontalPlacement(playerBoard.board, SHIPS.sloop, 1);
   horizontalPlacement(playerBoard.board, SHIPS.galleon, 1);
   horizontalPlacement(playerBoard.board, SHIPS.queenAnnesRevenge, 1);
 }
-function renderComputerBoard {
-  horizontalPlacement(computerBoard.board, SHIPS.dinghy, 1);
-  horizontalPlacement(computerBoard.board, SHIPS.sloop, 1);
-  horizontalPlacement(computerBoard.board, SHIPS.galleon, 1);
-  horizontalPlacement(computerBoard.board, SHIPS.queenAnnesRevenge, 1);
+function initComputerBoard() {
+  horizontalPlacement(computerBoard.board, SHIPS.dinghy, 2);
+  horizontalPlacement(computerBoard.board, SHIPS.sloop, 2);
+  horizontalPlacement(computerBoard.board, SHIPS.galleon, 2);
+  horizontalPlacement(computerBoard.board, SHIPS.queenAnnesRevenge, 2);
 }

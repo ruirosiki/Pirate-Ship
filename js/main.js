@@ -23,6 +23,12 @@ class Ship {
     this.location = [];
   }
 }
+const SHIPS = {
+  dinghy: new Ship(2, 0, false),
+  sloop: new Ship(3, 0, false),
+  galleon: new Ship(4, 0, false),
+  queenAnnesRevenge: new Ship(5, 0, false),
+};
 //defines a class for the board - allows creation of separate boards (computer and player or eventually player1 and player2)
 class Board {
   constructor() {
@@ -41,14 +47,14 @@ class Board {
   }
 }
 //
-const dinghy = new Ship(2, 0, false);
-const sloop = new Ship(3, 0, false);
-const galleon = new Ship(4, 0, false);
-const queenAnnesRevenge = new Ship(5, 0, false);
-console.log(dinghy);
-console.log(sloop);
-console.log(galleon);
-console.log(queenAnnesRevenge);
+// const dinghy = new Ship(2, 0, false);
+// const sloop = new Ship(3, 0, false);
+// const galleon = new Ship(4, 0, false);
+// const queenAnnesRevenge = new Ship(5, 0, false);
+console.log(SHIPS.dinghy);
+console.log(SHIPS.sloop);
+console.log(SHIPS.galleon);
+console.log(SHIPS.queenAnnesRevenge);
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
 const MAX_HITS = 17;
@@ -101,6 +107,11 @@ function render() {
   renderBoard();
 }
 //map the player board to the boardEls
+// console.log(cellValue);
+// console.log(colIndex);
+// console.log(squareIndex);
+// console.log(cellEl);
+// console.log(cellId);
 
 function renderBoard() {
   if (turn === "player") {
@@ -117,11 +128,6 @@ function renderBoard() {
         } else if (cellValue === -2) {
           cellEl.style.backgroundColor = "red";
         }
-        // console.log(cellValue);
-        // console.log(colIndex);
-        // console.log(squareIndex);
-        // console.log(cellEl);
-        // console.log(cellId);
       });
     });
   } else if (turn === "computer") {
@@ -214,10 +220,10 @@ function horizontalPlacement(board, ship, squareValue) {
     }
   } else horizontalPlacement(board, ship, squareValue);
 }
-horizontalPlacement(playerBoard.board, dinghy, 1);
-horizontalPlacement(playerBoard.board, sloop, 1);
-horizontalPlacement(playerBoard.board, galleon, 1);
-horizontalPlacement(playerBoard.board, queenAnnesRevenge, 1);
+// horizontalPlacement(playerBoard.board, SHIPS.dinghy, 1);
+// horizontalPlacement(playerBoard.board, SHIPS.sloop, 1);
+// horizontalPlacement(playerBoard.board, SHIPS.galleon, 1);
+// horizontalPlacement(playerBoard.board, SHIPS.queenAnnesRevenge, 1);
 // horizontalPlacement(computerBoard.board, dinghy, 2);
 console.log("pboard", playerBoard);
 console.log("cboard", computerBoard);
@@ -255,32 +261,46 @@ function isSunk(board, clickedSquare) {
   //repeat right check
 }
 
-function checkLeft(board, clickedSquare) {
-  let start = clickedSquare;
-  let rowIndex = (start - (start % 10)) / 10;
-  let colIndex = start % 10;
-  if (
-    board[rowIndex][colIndex - 1] === null ||
-    board[rowIndex][colIndex - 1] === 1 ||
-    board[rowIndex][colIndex - 1] === -1
-  ) {
-    checkRight(clickedSquare);
-    return;
-  } else if (board[rowIndex][colIndex - 1] === -2) {
-    checkLeft();
-  }
+// function checkLeft(board, clickedSquare) {
+//   let start = clickedSquare;
+//   let rowIndex = (start - (start % 10)) / 10;
+//   let colIndex = start % 10;
+//   if (
+//     board[rowIndex][colIndex - 1] === null ||
+//     board[rowIndex][colIndex - 1] === 1 ||
+//     board[rowIndex][colIndex - 1] === -1
+//   ) {
+//     checkRight(clickedSquare);
+//     return;
+//   } else if (board[rowIndex][colIndex - 1] === -2) {
+//     checkLeft();
+//   }
+// }
+// function checkRight(board, clickedSquare) {
+//   let start = clickedSquare;
+//   let rowIndex = (start - (start % 10)) / 10;
+//   let colIndex = start % 10;
+//   if (
+//     board[rowIndex][colIndex + 1] === null ||
+//     board[rowIndex][colIndex + 1] === 1 ||
+//     board[rowIndex][colIndex + 1] === -1
+//   ) {
+//     return;
+//   } else if (board[rowIndex][colIndex + 1] === -2) {
+//     checkRight();
+//   }
+// }
+
+//render playerBoard and computer board
+function renderPlayerBoard() {
+  horizontalPlacement(playerBoard.board, SHIPS.dinghy, 1);
+  horizontalPlacement(playerBoard.board, SHIPS.sloop, 1);
+  horizontalPlacement(playerBoard.board, SHIPS.galleon, 1);
+  horizontalPlacement(playerBoard.board, SHIPS.queenAnnesRevenge, 1);
 }
-function checkRight(board, clickedSquare) {
-  let start = clickedSquare;
-  let rowIndex = (start - (start % 10)) / 10;
-  let colIndex = start % 10;
-  if (
-    board[rowIndex][colIndex + 1] === null ||
-    board[rowIndex][colIndex + 1] === 1 ||
-    board[rowIndex][colIndex + 1] === -1
-  ) {
-    return;
-  } else if (board[rowIndex][colIndex + 1] === -2) {
-    checkRight();
-  }
+function renderComputerBoard {
+  horizontalPlacement(computerBoard.board, SHIPS.dinghy, 1);
+  horizontalPlacement(computerBoard.board, SHIPS.sloop, 1);
+  horizontalPlacement(computerBoard.board, SHIPS.galleon, 1);
+  horizontalPlacement(computerBoard.board, SHIPS.queenAnnesRevenge, 1);
 }

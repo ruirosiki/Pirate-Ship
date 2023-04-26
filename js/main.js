@@ -16,11 +16,11 @@ const BOARD_SQUARE = {
 };
 //defines a class for ship - allows to create ships of different lengths
 class Ship {
-  constructor(length, hitCount, isSunk, direction) {
+  constructor(length, hitCount, isSunk, location) {
     this.length = length;
-    this.hitCount = hitCount;
+    this.hitCount = 0;
     this.isSunk = false;
-    this.direction = direction;
+    this.location = [];
   }
 }
 //defines a class for the board - allows creation of separate boards (computer and player or eventually player1 and player2)
@@ -41,11 +41,14 @@ class Board {
   }
 }
 //
-const dinghy = new Ship(2, 0, false, 1);
-const sloop = new Ship(3, 0, false, 0);
-const galleon = new Ship(4, 0, false, 1);
-const queenAnnesRevenge = new Ship(5, 0, false, 0);
-
+const dinghy = new Ship(2, 0, false);
+const sloop = new Ship(3, 0, false);
+const galleon = new Ship(4, 0, false);
+const queenAnnesRevenge = new Ship(5, 0, false);
+console.log(dinghy);
+console.log(sloop);
+console.log(galleon);
+console.log(queenAnnesRevenge);
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
 const MAX_HITS = 17;
@@ -88,31 +91,16 @@ function init() {
   playerBoard = new Board();
   computerBoard = new Board();
   turn = PLAYERS.player;
-  winner = null;
+  winner = false;
   render();
 }
 //render
 function render() {
   renderTurnOrder();
+  renderPlayAgain();
   renderBoard();
 }
 //map the player board to the boardEls
-//javascript hide/toggle element element.style.display = none.
-// function renderBoard() {
-// if (turn === "player") {
-//   for (i = 0; i < computerBoard.board.length; i++) {
-//     for (j = 0; j < computerBoard.board[i].length; j++) {
-//       boardEls[i][j] = computerBoard.board[i][j];
-//     }
-//   }
-// } else if (turn === "computer") {
-//   for (i = 0; i < playerBoard.board.length; i++) {
-//     for (j = 0; j < playerBoard.board[i].length; j++) {
-//       boardEls[i][j] = playerBoard.board[i][j];
-//     }
-//   }
-// }
-// }
 
 function renderBoard() {
   if (turn === "player") {
@@ -154,7 +142,10 @@ function renderBoard() {
     });
   }
 }
-
+//render play again button
+function renderPlayAgain() {
+  playAgainButton.style.visibility = winner ? "visible" : "hidden";
+}
 //update message with turn order
 function renderTurnOrder() {
   if (turn === "player") {
@@ -218,6 +209,7 @@ function horizontalPlacement(board, ship, squareValue) {
     if (isValid === true) {
       for (j = 0; j < ship.length; j++) {
         board[rowCoordinate][colCoordinate + j] = BOARD_SQUARE[squareValue];
+        ship.location.push(`${rowCoordinate}${colCoordinate + j}`);
       }
     }
   } else horizontalPlacement(board, ship, squareValue);
@@ -226,12 +218,12 @@ horizontalPlacement(playerBoard.board, dinghy, 1);
 horizontalPlacement(playerBoard.board, sloop, 1);
 horizontalPlacement(playerBoard.board, galleon, 1);
 horizontalPlacement(playerBoard.board, queenAnnesRevenge, 1);
-horizontalPlacement(computerBoard.board, dinghy, 2);
+// horizontalPlacement(computerBoard.board, dinghy, 2);
 console.log("pboard", playerBoard);
 console.log("cboard", computerBoard);
 
 //ship hit
-function hit() {
+function isHit(clickedSquare) {
   //does square have a value === to a ship?
   //if it does, update messageEl t0 hit
   //change the color of the clicked board square to red

@@ -142,11 +142,15 @@ function playerClick(event) {
     // isSunk(computerBoard.board, squareIndex);
     renderBoard();
   }
+  document.getElementById("board").removeEventListener("click", playerClick);
   console.log(computerBoard.board);
   // isSunk(squareIndex);
   turn = PLAYERS.computer;
   setTimeout(() => {
     render();
+  }, 3000);
+  setTimeout(() => {
+    computerMove();
   }, 3000);
 }
 
@@ -161,10 +165,25 @@ function computerMove() {
       return;
     } else if (computerGuess !== guess) {
       computerGuesses.push(computerGuess);
+      if (playerBoard.board[rowIndex][colIndex] === null) {
+        messageEl.innerText = MESSAGES.miss;
+        playerBoard.board[rowIndex][colIndex] = -1;
+        renderBoard();
+      } else if (playerBoard.board[rowIndex][colIndex] === 1) {
+        messageEl.innerText = MESSAGES.hit;
+        computerBoard.board[rowIndex][colIndex] = -2;
+        // isSunk(computerBoard.board, squareIndex);
+        renderBoard();
+      }
     }
   }
+  turn = PLAYERS.player;
+  setTimeout(() => {
+    render();
+  }, 3000);
+  document.getElementById("board").addEventListener("click", playerClick);
+  console.log("computer Guess", computerGuess);
 }
-
 //randomly places 4 ships in a horizontal direction
 //small bug: will randomly skip placing ship if too many tries
 function horizontalPlacement(board, ship, squareValue) {

@@ -132,16 +132,7 @@ function playerClick(event) {
   const squareIndex = boardEls.indexOf(event.target);
   let rowIndex = (squareIndex - (squareIndex % 10)) / 10;
   let colIndex = squareIndex % 10;
-  if (computerBoard.board[rowIndex][colIndex] === null) {
-    messageEl.innerText = MESSAGES.miss;
-    computerBoard.board[rowIndex][colIndex] = -1;
-    renderBoard();
-  } else if (computerBoard.board[rowIndex][colIndex] === 2) {
-    messageEl.innerText = MESSAGES.hit;
-    computerBoard.board[rowIndex][colIndex] = -2;
-    // isSunk(computerBoard.board, squareIndex);
-    renderBoard();
-  }
+  isHit(rowIndex, colIndex, computerBoard.board, 2);
   document.getElementById("board").removeEventListener("click", playerClick);
   console.log(computerBoard.board);
   // isSunk(squareIndex);
@@ -154,35 +145,23 @@ function playerClick(event) {
   }, 3000);
 }
 
-//computer move
+//computer move - working - need to add logic to not guess same square twice.
 function computerMove() {
   let computerGuesses = [];
-  let colCoordinate = Math.floor(Math.random() * 10);
-  let rowCoordinate = Math.floor(Math.random() * 100);
-  let computerGuess = rowCoordinate + colCoordinate;
-  for (guess of computerGuesses) {
-    if (computerGuess === guess) {
-      return;
-    } else if (computerGuess !== guess) {
-      computerGuesses.push(computerGuess);
-      if (playerBoard.board[rowIndex][colIndex] === null) {
-        messageEl.innerText = MESSAGES.miss;
-        playerBoard.board[rowIndex][colIndex] = -1;
-        renderBoard();
-      } else if (playerBoard.board[rowIndex][colIndex] === 1) {
-        messageEl.innerText = MESSAGES.hit;
-        computerBoard.board[rowIndex][colIndex] = -2;
-        // isSunk(computerBoard.board, squareIndex);
-        renderBoard();
-      }
-    }
-  }
+  let colIndex = Math.floor(Math.random() * 10);
+  let rowIndex = Math.floor(Math.random() * 10);
+  let computerGuess = rowIndex * 10 + colIndex;
+  isHit(rowIndex, colIndex, playerBoard.board, 1);
   turn = PLAYERS.player;
   setTimeout(() => {
     render();
   }, 3000);
   document.getElementById("board").addEventListener("click", playerClick);
+  console.log(rowIndex);
+  console.log(colIndex);
   console.log("computer Guess", computerGuess);
+  console.log("guesses array", computerGuesses);
+  console.log("player board", playerBoard);
 }
 //randomly places 4 ships in a horizontal direction
 //small bug: will randomly skip placing ship if too many tries
@@ -216,19 +195,17 @@ function horizontalPlacement(board, ship, squareValue) {
 console.log("pboard", playerBoard);
 console.log("cboard", computerBoard);
 
-//ship hit
-function isHit(clickedSquare) {
-  //does square have a value === to a ship?
-  //if it does, update messageEl t0 hit
-  //change the color of the clicked board square to red
-  //update the hit tracker
-  //check the win condition
-  //otherwise
-  // else {
-  //   messageEl.innerText = MESSAGES.miss;
-  // }
-  //update messageEl to miss
-  //change the color of the square to blue
+//ship hit - need to fix the hit condition so can use with computer.
+function isHit(rowIndex, colIndex, board, target) {
+  if (board[rowIndex][colIndex] === null) {
+    messageEl.innerText = MESSAGES.miss;
+    board[rowIndex][colIndex] = -1;
+    renderBoard();
+  } else if (board[rowIndex][colIndex] === target) {
+    messageEl.innerText = MESSAGES.hit;
+    board[rowIndex][colIndex] = -2;
+    renderBoard();
+  }
 }
 
 //sunk function
@@ -313,7 +290,6 @@ function renderPlayerBoard() {
     });
   });
 }
-
 function renderComputerBoard() {
   computerBoard.board.forEach((rowArray, squareIndex) => {
     rowArray.forEach((cellValue, colIndex) => {

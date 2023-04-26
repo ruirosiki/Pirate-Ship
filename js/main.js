@@ -10,7 +10,7 @@ const PLAYERS = {
 const BOARD_SQUARE = {
   0: null, //empty square
   2: 2, //computer square
-  1: "yes", //player ship location
+  1: 1, //player ship location
   "-1": -1, //miss
   "-2": -2, //hit ship
 };
@@ -98,27 +98,62 @@ function render() {
 }
 //map the player board to the boardEls
 //javascript hide/toggle element element.style.display = none.
-function renderBoard() {
-  // if (turn === "player") {
-  //   for (i = 0; i < computerBoard.board.length; i++) {
-  //     for (j = 0; j < computerBoard.board[i].length; j++) {
-  //       boardEls[i][j] = computerBoard.board[i][j];
-  //     }
-  //   }
-  // } else if (turn === "computer") {
-  //   for (i = 0; i < playerBoard.board.length; i++) {
-  //     for (j = 0; j < playerBoard.board[i].length; j++) {
-  //       boardEls[i][j] = playerBoard.board[i][j];
-  //     }
-  //   }
-  // }
-}
 // function renderBoard() {
-//   playerBoard.board.forEach((cellValue, squareIndex) => {
-//     const cellId = `s${squareIndex}`;
-//     const cellEl = document.getElementById(cellId);
-//   });
+// if (turn === "player") {
+//   for (i = 0; i < computerBoard.board.length; i++) {
+//     for (j = 0; j < computerBoard.board[i].length; j++) {
+//       boardEls[i][j] = computerBoard.board[i][j];
+//     }
+//   }
+// } else if (turn === "computer") {
+//   for (i = 0; i < playerBoard.board.length; i++) {
+//     for (j = 0; j < playerBoard.board[i].length; j++) {
+//       boardEls[i][j] = playerBoard.board[i][j];
+//     }
+//   }
 // }
+// }
+
+function renderBoard() {
+  if (turn === "player") {
+    playerBoard.board.forEach((rowArray, squareIndex) => {
+      rowArray.forEach((cellValue, colIndex) => {
+        const cellId = `s${squareIndex}${colIndex}`;
+        const cellEl = document.getElementById(cellId);
+        if (cellValue === null) {
+          cellEl.style.backgroundColor = "beige";
+        } else if (cellValue === 1) {
+          cellEl.style.backgroundColor = "brown";
+        } else if (cellValue === -1) {
+          cellEl.style.backgroundColor = "blue";
+        } else if (cellValue === -2) {
+          cellEl.style.backgroundColor = "red";
+        }
+        // console.log(cellValue);
+        // console.log(colIndex);
+        // console.log(squareIndex);
+        // console.log(cellEl);
+        // console.log(cellId);
+      });
+    });
+  } else if (turn === "computer") {
+    playerBoard.board.forEach((rowArray, squareIndex) => {
+      rowArray.forEach((cellValue, colIndex) => {
+        const cellId = `s${squareIndex}${colIndex}`;
+        const cellEl = document.getElementById(cellId);
+        if (cellValue === null) {
+          cellEl.style.backgroundColor = "beige";
+        } else if (cellValue === 1) {
+          cellEl.style.backgroundColor = "beige";
+        } else if (cellValue === -1) {
+          cellEl.style.backgroundColor = "blue";
+        } else if (cellValue === -2) {
+          cellEl.style.backgroundColor = "red";
+        }
+      });
+    });
+  }
+}
 
 //update message with turn order
 function renderTurnOrder() {
@@ -140,8 +175,10 @@ function playerClick(event) {
   } else if (computerBoard.board[rowIndex][colIndex] === 2) {
     messageEl.innerText = MESSAGES.hit;
     computerBoard.board[rowIndex][colIndex] = -2;
+    isSunk(computerBoard.board, squareIndex);
   }
   console.log(computerBoard.board);
+  isSunk(squareIndex);
   turn = PLAYERS.computer;
   setTimeout(() => {
     render();
@@ -206,4 +243,52 @@ function hit() {
   // }
   //update messageEl to miss
   //change the color of the square to blue
+}
+
+//sunk function
+function isSunk(board, clickedSquare) {
+  let start = clickedSquare;
+  let rowIndex = (start - (start % 10)) / 10;
+  let colIndex = start % 10;
+  checkLeft(board, clickedSquare);
+  checkRight(board, clickedSquare);
+  //if the click is a hit
+  //check immediately to the left
+  //if is null, 1 or -1 check to the right
+  //else if is -2
+  //repeat left check
+  //check to right of click
+  //if is null, 1, or -1 check to the left
+  //else if it is -2,
+  //repeat right check
+}
+
+function checkLeft(board, clickedSquare) {
+  let start = clickedSquare;
+  let rowIndex = (start - (start % 10)) / 10;
+  let colIndex = start % 10;
+  if (
+    board[rowIndex][colIndex - 1] === null ||
+    board[rowIndex][colIndex - 1] === 1 ||
+    board[rowIndex][colIndex - 1] === -1
+  ) {
+    checkRight(clickedSquare);
+    return;
+  } else if (board[rowIndex][colIndex - 1] === -2) {
+    checkLeft();
+  }
+}
+function checkRight(board, clickedSquare) {
+  let start = clickedSquare;
+  let rowIndex = (start - (start % 10)) / 10;
+  let colIndex = start % 10;
+  if (
+    board[rowIndex][colIndex + 1] === null ||
+    board[rowIndex][colIndex + 1] === 1 ||
+    board[rowIndex][colIndex + 1] === -1
+  ) {
+    return;
+  } else if (board[rowIndex][colIndex + 1] === -2) {
+    checkRight();
+  }
 }

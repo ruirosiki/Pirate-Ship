@@ -47,10 +47,10 @@ class Board {
   }
 }
 
-console.log(SHIPS.dinghy);
-console.log(SHIPS.sloop);
-console.log(SHIPS.galleon);
-console.log(SHIPS.queenAnnesRevenge);
+// console.log(SHIPS.dinghy);
+// console.log(SHIPS.sloop);
+// console.log(SHIPS.galleon);
+// console.log(SHIPS.queenAnnesRevenge);
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
 const MAX_HITS = 17;
@@ -104,46 +104,13 @@ function render() {
   renderPlayAgain();
   renderBoard();
 }
-//map the player board to the boardEls
-// console.log(cellValue);
-// console.log(colIndex);
-// console.log(squareIndex);
-// console.log(cellEl);
-// console.log(cellId);
 
+//update dom board to render visual board based on turn
 function renderBoard() {
   if (turn === "player") {
-    computerBoard.board.forEach((rowArray, squareIndex) => {
-      rowArray.forEach((cellValue, colIndex) => {
-        const cellId = `s${squareIndex}${colIndex}`;
-        const cellEl = document.getElementById(cellId);
-        if (cellValue === null) {
-          cellEl.style.backgroundColor = "beige";
-        } else if (cellValue === 1) {
-          cellEl.style.backgroundColor = "brown";
-        } else if (cellValue === -1) {
-          cellEl.style.backgroundColor = "blue";
-        } else if (cellValue === -2) {
-          cellEl.style.backgroundColor = "red";
-        }
-      });
-    });
+    renderComputerBoard();
   } else if (turn === "computer") {
-    playerBoard.board.forEach((rowArray, squareIndex) => {
-      rowArray.forEach((cellValue, colIndex) => {
-        const cellId = `s${squareIndex}${colIndex}`;
-        const cellEl = document.getElementById(cellId);
-        if (cellValue === null) {
-          cellEl.style.backgroundColor = "beige";
-        } else if (cellValue === 1) {
-          cellEl.style.backgroundColor = "beige";
-        } else if (cellValue === -1) {
-          cellEl.style.backgroundColor = "blue";
-        } else if (cellValue === -2) {
-          cellEl.style.backgroundColor = "red";
-        }
-      });
-    });
+    renderPlayerBoard();
   }
 }
 //render play again button
@@ -291,7 +258,7 @@ function isHit(clickedSquare) {
 //   }
 // }
 
-//render playerBoard and computer board
+//init playerBoard and computer board
 function initPlayerBoard() {
   horizontalPlacement(playerBoard.board, SHIPS.dinghy, 1);
   horizontalPlacement(playerBoard.board, SHIPS.sloop, 1);
@@ -303,4 +270,41 @@ function initComputerBoard() {
   horizontalPlacement(computerBoard.board, SHIPS.sloop, 2);
   horizontalPlacement(computerBoard.board, SHIPS.galleon, 2);
   horizontalPlacement(computerBoard.board, SHIPS.queenAnnesRevenge, 2);
+}
+
+//render playerBoard and computerBoard
+function renderPlayerBoard() {
+  playerBoard.board.forEach((rowArray, squareIndex) => {
+    rowArray.forEach((cellValue, colIndex) => {
+      const cellId = `s${squareIndex}${colIndex}`;
+      const cellEl = document.getElementById(cellId);
+      if (cellValue === null) {
+        cellEl.style.backgroundColor = "beige";
+      } else if (cellValue === 1) {
+        cellEl.style.backgroundColor = "brown";
+      } else if (cellValue === -1) {
+        cellEl.style.backgroundColor = "blue";
+      } else if (cellValue === -2) {
+        cellEl.style.backgroundColor = "red";
+      }
+    });
+  });
+}
+
+function renderComputerBoard() {
+  computerBoard.board.forEach((rowArray, squareIndex) => {
+    rowArray.forEach((cellValue, colIndex) => {
+      const cellId = `s${squareIndex}${colIndex}`;
+      const cellEl = document.getElementById(cellId);
+      if (cellValue === null) {
+        cellEl.style.backgroundColor = "beige";
+      } else if (cellValue === 1) {
+        cellEl.style.backgroundColor = "beige";
+      } else if (cellValue === -1) {
+        cellEl.style.backgroundColor = "blue";
+      } else if (cellValue === -2) {
+        cellEl.style.backgroundColor = "red";
+      }
+    });
+  });
 }

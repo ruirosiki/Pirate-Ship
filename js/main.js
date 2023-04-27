@@ -1,9 +1,40 @@
 // REQUIRED CONSTANTS
-//players constant
+//defines a class for ship - allows to create ships of different lengths
+class Ship {
+  constructor(length, hitCount, isSunk, location) {
+    this.length = length;
+    this.hitCount = 0;
+    this.isSunk = false;
+    this.location = [];
+  }
+}
+// players constant
 const PLAYERS = {
   player: "player",
   computer: "computer",
 };
+
+//testing refactor
+// const PLAYERS = {
+//   player: {
+//     name: "player",
+//     ships: [
+//       { dinghy: new Ship(2, 0, false) },
+//       { sloop: new Ship(3, 0, false) },
+//       { galleon: new Ship(4, 0, false) },
+//       { queenAnnesRevenge: new Ship(5, 0, false) },
+//     ],
+//   },
+//   computer: {
+//     name: "computer",
+//     ships: [
+//       { dinghy: new Ship(2, 0, false) },
+//       { sloop: new Ship(3, 0, false) },
+//       { galleon: new Ship(4, 0, false) },
+//       { queenAnnesRevenge: new Ship(5, 0, false) },
+//     ],
+//   },
+// };
 
 //determines the board squares status
 const BOARD_SQUARE = {
@@ -14,18 +45,14 @@ const BOARD_SQUARE = {
   "-2": -2, //hit ship
 };
 
-//defines a class for ship - allows to create ships of different lengths
-class Ship {
-  constructor(length, hitCount, isSunk, location) {
-    this.length = length;
-    this.hitCount = 0;
-    this.isSunk = false;
-    this.location = [];
-  }
-}
-
 //defines a ships object to hold the different types of ships
-const SHIPS = {
+const PLAYER_SHIPS = {
+  dinghy: new Ship(2, 0, false),
+  sloop: new Ship(3, 0, false),
+  galleon: new Ship(4, 0, false),
+  queenAnnesRevenge: new Ship(5, 0, false),
+};
+const COMPUTER_SHIPS = {
   dinghy: new Ship(2, 0, false),
   sloop: new Ship(3, 0, false),
   galleon: new Ship(4, 0, false),
@@ -57,7 +84,7 @@ class Board {
 
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
-const MAX_HITS = 17;
+const MAX_HITS = 14;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -76,7 +103,8 @@ let playerBoard;
 let computerBoard;
 let turn;
 let winner;
-let shipLocation;
+// let shipLocation;
+let computerGuesses = [];
 
 //CACHED DOM ELEMENTS
 const messageEl = document.querySelector("#message");
@@ -133,8 +161,10 @@ function playerClick(event) {
   let rowIndex = (squareIndex - (squareIndex % 10)) / 10;
   let colIndex = squareIndex % 10;
   isHit(rowIndex, colIndex, computerBoard.board, 2);
+  // isSunk(squareIndex);
   document.getElementById("board").removeEventListener("click", playerClick);
   console.log(computerBoard.board);
+  checkWinner(computerBoard);
   // isSunk(squareIndex);
   turn = PLAYERS.computer;
   setTimeout(() => {
@@ -142,35 +172,36 @@ function playerClick(event) {
   }, 3000);
   setTimeout(() => {
     computerMove();
-  }, 3000);
+  }, 5000);
 }
-
 //computer move - working - need to add logic to not guess same square twice.
+//need to fix the time outs so the game flows better.
+//want to add logic so computer will choose a square relative to successful hit
+
 function computerMove() {
-  let computerGuesses = [];
-  let colIndex = Math.floor(Math.random() * 10);
   let rowIndex = Math.floor(Math.random() * 10);
+  let colIndex = Math.floor(Math.random() * 10);
   let computerGuess = rowIndex * 10 + colIndex;
+  computerGuesses.push(computerGuess);
   isHit(rowIndex, colIndex, playerBoard.board, 1);
   turn = PLAYERS.player;
   setTimeout(() => {
     render();
   }, 3000);
   document.getElementById("board").addEventListener("click", playerClick);
-  console.log(rowIndex);
-  console.log(colIndex);
-  console.log("computer Guess", computerGuess);
+  // console.log(rowIndex);
+  // console.log(colIndex);
+  // console.log("computer Guess", computerGuess);
   console.log("guesses array", computerGuesses);
   console.log("player board", playerBoard);
 }
+
 //randomly places 4 ships in a horizontal direction
 //small bug: will randomly skip placing ship if too many tries
 function horizontalPlacement(board, ship, squareValue) {
-  //generate two random start coordinates
   let colCoordinate = Math.floor(Math.random() * 10);
   let rowCoordinate = Math.floor(Math.random() * 10);
   let isValid = false;
-  // console.log(rowCoordinate, colCoordinate);
   if (
     board[rowCoordinate][colCoordinate] === null &&
     colCoordinate <= board.length - ship.length
@@ -191,9 +222,10 @@ function horizontalPlacement(board, ship, squareValue) {
     }
   } else horizontalPlacement(board, ship, squareValue);
 }
-
 console.log("pboard", playerBoard);
 console.log("cboard", computerBoard);
+// console.log(PLAYER_SHIPS.dinghy.location);
+// console.log(COMPUTER_SHIPS.dinghy);
 
 //ship hit - need to fix the hit condition so can use with computer.
 function isHit(rowIndex, colIndex, board, target) {
@@ -208,68 +240,38 @@ function isHit(rowIndex, colIndex, board, target) {
   }
 }
 
-//sunk function
-// function isSunk(board, clickedSquare) {
-//   let start = clickedSquare;
-//   let rowIndex = (start - (start % 10)) / 10;
-//   let colIndex = start % 10;
-//   checkLeft(board, clickedSquare);
-//   checkRight(board, clickedSquare);
-//if the click is a hit
-//check immediately to the left
-//if is null, 1 or -1 check to the right
-//else if is -2
-//repeat left check
-//check to right of click
-//if is null, 1, or -1 check to the left
-//else if it is -2,
-//repeat right check
-// }
-
-// function checkLeft(board, clickedSquare) {
-//   let start = clickedSquare;
-//   let rowIndex = (start - (start % 10)) / 10;
-//   let colIndex = start % 10;
-//   if (
-//     board[rowIndex][colIndex - 1] === null ||
-//     board[rowIndex][colIndex - 1] === 1 ||
-//     board[rowIndex][colIndex - 1] === -1
-//   ) {
-//     checkRight(clickedSquare);
-//     return;
-//   } else if (board[rowIndex][colIndex - 1] === -2) {
-//     checkLeft();
-//   }
-// }
-// function checkRight(board, clickedSquare) {
-//   let start = clickedSquare;
-//   let rowIndex = (start - (start % 10)) / 10;
-//   let colIndex = start % 10;
-//   if (
-//     board[rowIndex][colIndex + 1] === null ||
-//     board[rowIndex][colIndex + 1] === 1 ||
-//     board[rowIndex][colIndex + 1] === -1
-//   ) {
-//     return;
-//   } else if (board[rowIndex][colIndex + 1] === -2) {
-//     checkRight();
-//   }
-// }
+function isSunk(squareIndex) {
+  let hitCoordinate = squareIndex;
+  // let dinghyLocation = COMPUTER_SHIPS.dinghy.location;
+  for (i = 0; i < COMPUTER_SHIPS.dinghy.length; i++) {
+    if (squareIndex === COMPUTER_SHIPS.dinghy.location[i]) {
+      COMPUTER_SHIPS.dinghy.hitCount++;
+      if (COMPUTER_SHIPS.dinghy.hitCount === COMPUTER_SHIPS.dinghy.length) {
+        messageEl.innerText = MESSAGES.sunk;
+        return;
+      }
+    } else {
+      return;
+    }
+  }
+  console.log(dinghyLocation);
+  console.log(hitCoordinate);
+}
 
 //init playerBoard and computer board
 function initPlayerBoard() {
   playerBoard = new Board();
-  horizontalPlacement(playerBoard.board, SHIPS.dinghy, 1);
-  horizontalPlacement(playerBoard.board, SHIPS.sloop, 1);
-  horizontalPlacement(playerBoard.board, SHIPS.galleon, 1);
-  horizontalPlacement(playerBoard.board, SHIPS.queenAnnesRevenge, 1);
+  horizontalPlacement(playerBoard.board, PLAYER_SHIPS.dinghy, 1);
+  horizontalPlacement(playerBoard.board, PLAYER_SHIPS.sloop, 1);
+  horizontalPlacement(playerBoard.board, PLAYER_SHIPS.galleon, 1);
+  horizontalPlacement(playerBoard.board, PLAYER_SHIPS.queenAnnesRevenge, 1);
 }
 function initComputerBoard() {
   computerBoard = new Board();
-  horizontalPlacement(computerBoard.board, SHIPS.dinghy, 2);
-  horizontalPlacement(computerBoard.board, SHIPS.sloop, 2);
-  horizontalPlacement(computerBoard.board, SHIPS.galleon, 2);
-  horizontalPlacement(computerBoard.board, SHIPS.queenAnnesRevenge, 2);
+  horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.dinghy, 2);
+  horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.sloop, 2);
+  horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.galleon, 2);
+  horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.queenAnnesRevenge, 2);
 }
 
 //render playerBoard and computerBoard
@@ -306,4 +308,20 @@ function renderComputerBoard() {
       }
     });
   });
+}
+
+function checkWinner(board) {
+  let hitCount = [0, 0];
+  console.log(hitCount);
+  for (i = 0; i < board.board.length; i++) {
+    for (j = 0; j < board.board.length; j++) {
+      check = i + j;
+      if (board.board[check] === -2) {
+        return true;
+      }
+    }
+    hitCount.push[board.board[i][j]];
+  }
+  sumHits = hitCount.reduce((a, b) => a + b);
+  console.log(hitCount);
 }

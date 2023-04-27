@@ -3,9 +3,10 @@
 }
 
 body {
-    /* background: url(/Pirate-Ship/images/map-background.jpeg) no-repeat center center fixed; */
-    /* background-size: 100% 110%; */
-    background-color: beige;
+    background: url(/images/background-image.jpeg) no-repeat center center fixed;
+    background-size: 100% 110%;
+
+    /* background-color: beige; */
     font-family: 'Charmonman';
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -25,23 +26,31 @@ body {
 } */
 
 header {
-    font-size: 300%;
+    font-size: 600%;
     height: 75px;
     grid-area: a;
     margin-left: 10%;
-    align-self: top;
+    align-self: center;
+    text-shadow: rgb(216, 136, 16) 1px 0 10px;
 }
 
 #tagline {
     grid-area: f;
-    align-self: baseline;
+    margin-top: 7%;
+    margin-left: 14%;
+    align-self: bottom;
+    color: black;
+    text-shadow: rgb(216, 136, 16) 1px 0 10px;
 }
 
 #message {
     grid-area: b;
     justify-self: center;
     margin: auto;
-    border: solid black;
+    padding: 10px 50px 10px 50px;
+    border: .5rem dashed black;
+    border: 4mm ridge rgb(87, 47, 10);
+    text-shadow: rgb(99, 60, 2) 1px 0 10px;
 }
 
 #board {
@@ -56,16 +65,20 @@ header {
 #board>div {
     height: 100%;
     width: 100%;
-    border: solid black;
+    border: solid rgb(87, 47, 10);
     margin: 0;
 }
 
 #instructions {
     grid-area: c;
+    margin-left: 10%;
     /* margin: auto; */
     font-size: 1.5em;
     font-weight: bolder;
     align-content: end;
+    font-weight: bolder;
+    color: black;
+    text-shadow: rgb(216, 136, 16) 1px 0 10px;
 }
 
 ol {
@@ -73,10 +86,14 @@ ol {
 }
 
 h2 {
-    margin-left: 50px;
     margin-bottom: 0%;
     text-decoration: underline;
     justify-content: center;
+}
+
+h3 {
+    margin-bottom: -5%;
+    text-decoration: underline;
 }
 
 #play-again {

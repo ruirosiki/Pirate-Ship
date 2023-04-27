@@ -4,7 +4,7 @@ A thematic pirates version of the classic strategy game battleship. Players will
 
 # Sreenshots
 
-![HTML Elements](https://i.imgur.com/9Vnkr84.jpg)
+![Main Sreen](https://i.imgur.com/83F9kqV.png)
 ![Main Screen](https://i.imgur.com/yUwWnkH.jpg)
 ![Play Screen](https://i.imgur.com/Xp58f7P.jpg)
 ![Final Screen](https://i.imgur.com/KV0ZDqs.jpg)

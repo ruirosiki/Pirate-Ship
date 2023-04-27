@@ -76,11 +76,12 @@ const MESSAGES = {
 let playerBoard;
 let computerBoard;
 let neutralBoard;
+
 let turn;
 let winner;
-let computerGuesses = [];
-let playerHits = [0];
-let computerHits = [0];
+let computerGuesses;
+let playerHits;
+let computerHits;
 
 //CACHED DOM ELEMENTS
 const messageEl = document.querySelector("#message");
@@ -99,6 +100,9 @@ function init() {
   initComputerBoard();
   neutralBoard = new Board();
   turn = PLAYERS.player;
+  let computerGuesses = [];
+  let playerHits = [];
+  let computerHits = [];
   winner = "";
   render();
 }

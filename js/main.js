@@ -42,7 +42,7 @@ const BOARD_SQUARE = {
   2: 2, //computer square
   1: 1, //player ship location
   "-1": -1, //miss
-  "-2": -2, //hit ship
+  "-2": "hit", //hit ship
 };
 
 //defines a ships object to hold the different types of ships
@@ -77,14 +77,10 @@ class Board {
     ];
   }
 }
-// console.log(SHIPS.dinghy);
-// console.log(SHIPS.sloop);
-// console.log(SHIPS.galleon);
-// console.log(SHIPS.queenAnnesRevenge);
 
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
-const MAX_HITS = 14;
+const MAX_HITS = 3;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -105,6 +101,8 @@ let turn;
 let winner;
 // let shipLocation;
 let computerGuesses = [];
+let playerHits = [0];
+let computerHits = [0];
 
 //CACHED DOM ELEMENTS
 const messageEl = document.querySelector("#message");
@@ -122,7 +120,7 @@ function init() {
   initPlayerBoard();
   initComputerBoard();
   turn = PLAYERS.player;
-  winner = false;
+  winner = "";
   render();
 }
 
@@ -139,6 +137,13 @@ function renderBoard() {
     renderComputerBoard();
   } else if (turn === "computer") {
     renderPlayerBoard();
+  }
+}
+function renderWinner() {
+  if (winner === "player") {
+    messageEl.innerText = MESSAGES.pWin;
+  } else if (winner === "computer") {
+    messageEl.innerText = MESSAGES.cWin;
   }
 }
 
@@ -160,40 +165,46 @@ function playerClick(event) {
   const squareIndex = boardEls.indexOf(event.target);
   let rowIndex = (squareIndex - (squareIndex % 10)) / 10;
   let colIndex = squareIndex % 10;
-  isHit(rowIndex, colIndex, computerBoard.board, 2);
-  // isSunk(squareIndex);
+  isHit(rowIndex, colIndex, computerBoard.board, 2, playerHits);
   document.getElementById("board").removeEventListener("click", playerClick);
   console.log(computerBoard.board);
-  checkWinner(computerBoard);
-  // isSunk(squareIndex);
-  turn = PLAYERS.computer;
-  setTimeout(() => {
-    render();
-  }, 3000);
-  setTimeout(() => {
-    computerMove();
-  }, 5000);
+  checkWinner(playerHits, PLAYERS.player);
+  if (winner === "") {
+    turn = PLAYERS.computer;
+    setTimeout(() => {
+      render();
+    }, 3000);
+    setTimeout(() => {
+      computerMove();
+    }, 5000);
+  } else {
+    document.getElementById("board").removeEventListener("click", playerClick);
+  }
 }
+
 //computer move - working - need to add logic to not guess same square twice.
 //need to fix the time outs so the game flows better.
 //want to add logic so computer will choose a square relative to successful hit
-
 function computerMove() {
-  let rowIndex = Math.floor(Math.random() * 10);
-  let colIndex = Math.floor(Math.random() * 10);
-  let computerGuess = rowIndex * 10 + colIndex;
-  computerGuesses.push(computerGuess);
-  isHit(rowIndex, colIndex, playerBoard.board, 1);
-  turn = PLAYERS.player;
-  setTimeout(() => {
-    render();
-  }, 3000);
-  document.getElementById("board").addEventListener("click", playerClick);
-  // console.log(rowIndex);
-  // console.log(colIndex);
-  // console.log("computer Guess", computerGuess);
-  console.log("guesses array", computerGuesses);
-  console.log("player board", playerBoard);
+  if (winner === "") {
+    let rowIndex = Math.floor(Math.random() * 10);
+    let colIndex = Math.floor(Math.random() * 10);
+    let computerGuess = rowIndex * 10 + colIndex;
+    computerGuesses.push(computerGuess);
+    isHit(rowIndex, colIndex, playerBoard.board, 1, computerHits);
+    turn = PLAYERS.player;
+    setTimeout(() => {
+      render();
+    }, 3000);
+    document.getElementById("board").addEventListener("click", playerClick);
+    // console.log(rowIndex);
+    // console.log(colIndex);
+    // console.log("computer Guess", computerGuess);
+    console.log("guesses array", computerGuesses);
+    console.log("player board", playerBoard);
+  } else {
+    document.getElementById("board").removeEventListener("click", playerClick);
+  }
 }
 
 //randomly places 4 ships in a horizontal direction
@@ -227,15 +238,17 @@ console.log("cboard", computerBoard);
 // console.log(PLAYER_SHIPS.dinghy.location);
 // console.log(COMPUTER_SHIPS.dinghy);
 
-//ship hit - need to fix the hit condition so can use with computer.
-function isHit(rowIndex, colIndex, board, target) {
+//ship hit
+function isHit(rowIndex, colIndex, board, target, turnHits) {
   if (board[rowIndex][colIndex] === null) {
     messageEl.innerText = MESSAGES.miss;
     board[rowIndex][colIndex] = -1;
     renderBoard();
   } else if (board[rowIndex][colIndex] === target) {
     messageEl.innerText = MESSAGES.hit;
-    board[rowIndex][colIndex] = -2;
+    board[rowIndex][colIndex] = "hit";
+    turnHits.push(1);
+    console.log(turnHits);
     renderBoard();
   }
 }
@@ -303,25 +316,39 @@ function renderComputerBoard() {
         cellEl.style.backgroundColor = "beige";
       } else if (cellValue === -1) {
         cellEl.style.backgroundColor = "blue";
-      } else if (cellValue === -2) {
+      } else if (cellValue === "hit") {
         cellEl.style.backgroundColor = "red";
       }
     });
   });
 }
 
-function checkWinner(board) {
-  let hitCount = [0, 0];
-  console.log(hitCount);
-  for (i = 0; i < board.board.length; i++) {
-    for (j = 0; j < board.board.length; j++) {
-      check = i + j;
-      if (board.board[check] === -2) {
-        return true;
+function checkWinner(turnHits, player) {
+  let hits = 0;
+  for (i = 0; i < turnHits.length; i++) {
+    if (turnHits[i] === 1) {
+      hits++;
+      if (hits === MAX_HITS) {
+        winner = player;
+        return winner;
       }
     }
-    hitCount.push[board.board[i][j]];
   }
-  sumHits = hitCount.reduce((a, b) => a + b);
-  console.log(hitCount);
+  console.log(hits);
 }
+console.log(PLAYER_SHIPS.dinghy.location);
+var shipLocation = PLAYER_SHIPS;
+
+// let hitCount = 0;
+// for (let board of Object.values(computerBoard)) {
+//   for (i = 0; i < 10; i++) {
+//     for (j = 0; j < 10; j++) {
+//       if (board[i][j] === 2) {
+//         hitCount = hitCount + 1;
+//         return hitCount;
+//       }
+//     }
+//   }
+//   console.log("in board loop", board);
+//   console.log(hitCount);
+// }

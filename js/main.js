@@ -58,7 +58,7 @@ class Board {
 
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
-const MAX_HITS = 14;
+const MAX_HITS = 1;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -78,9 +78,9 @@ let computerBoard;
 let neutralBoard;
 let turn;
 let winner;
-let computerGuesses = [];
-let playerHits = [0];
-let computerHits = [0];
+let computerGuesses;
+let playerHits;
+let computerHits;
 
 //CACHED DOM ELEMENTS
 const messageEl = document.querySelector("#message");
@@ -97,9 +97,12 @@ init();
 function init() {
   initPlayerBoard();
   initComputerBoard();
-  neutralBoard = new Board();
+  initNeutralBoard();
   turn = PLAYERS.player;
   winner = "";
+  computerGuesses = [];
+  playerHits = [];
+  computerHits = [];
   render();
 }
 
@@ -130,7 +133,7 @@ function renderWinner() {
 
 //render play again button
 function renderPlayAgain() {
-  playAgainButton.style.visibility = winner ? "visible" : "hidden";
+  // playAgainButton.style.visibility = winner ? "visible" : "hidden";
 }
 //update message with turn order
 function renderTurnOrder() {
@@ -172,7 +175,7 @@ function computerMove() {
     let computerGuess = rowIndex * 10 + colIndex;
     computerGuesses.push(computerGuess);
     isHit(rowIndex, colIndex, playerBoard.board, 1, computerHits);
-    checkWinner(playerHits, PLAYERS.computer);
+    checkWinner(computerHits, PLAYERS.computer);
     turn = PLAYERS.player;
     setTimeout(() => {
       render();
@@ -184,7 +187,7 @@ function computerMove() {
     document.getElementById("board").removeEventListener("click", playerClick);
   }
 }
-
+console.log(computerBoard);
 //randomly places 4 ships in a horizontal direction
 //small bug: will randomly skip placing ship if too many tries
 function horizontalPlacement(board, ship, squareValue) {
@@ -242,6 +245,9 @@ function initComputerBoard() {
   horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.galleon, 2);
   horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.queenAnnesRevenge, 2);
 }
+function initNeutralBoard() {
+  neutralBoard = new Board();
+}
 
 //render playerBoard, computerBoard, and neutral board between turns
 function renderPlayerBoard() {
@@ -250,7 +256,7 @@ function renderPlayerBoard() {
       const cellId = `s${squareIndex}${colIndex}`;
       const cellEl = document.getElementById(cellId);
       if (cellValue === null) {
-        cellEl.style.backgroundColor = "beige";
+        cellEl.style.backgroundColor = "transparent";
       } else if (cellValue === 1) {
         cellEl.style.backgroundColor = "brown";
       } else if (cellValue === -1) {
@@ -267,9 +273,9 @@ function renderComputerBoard() {
       const cellId = `s${squareIndex}${colIndex}`;
       const cellEl = document.getElementById(cellId);
       if (cellValue === null) {
-        cellEl.style.backgroundColor = "beige";
-      } else if (cellValue === 1) {
-        cellEl.style.backgroundColor = "beige";
+        cellEl.style.backgroundColor = "transparent";
+      } else if (cellValue === 2) {
+        cellEl.style.backgroundColor = "transparent";
       } else if (cellValue === -1) {
         cellEl.style.backgroundColor = "blue";
       } else if (cellValue === -2) {
@@ -302,4 +308,5 @@ function checkWinner(turnHits, player) {
       }
     }
   }
+  console.log(turnHits);
 }

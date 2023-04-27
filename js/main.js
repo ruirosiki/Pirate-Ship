@@ -80,7 +80,7 @@ class Board {
 
 //win condition
 //eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
-const MAX_HITS = 3;
+const MAX_HITS = 14;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -127,8 +127,9 @@ function init() {
 //render the DOM elements
 function render() {
   renderTurnOrder();
-  renderPlayAgain();
   renderBoard();
+  renderWinner();
+  renderPlayAgain();
 }
 
 //update dom board to render visual board based on turn
@@ -155,7 +156,7 @@ function renderPlayAgain() {
 function renderTurnOrder() {
   if (turn === "player") {
     messageEl.innerText = MESSAGES.pTurn;
-  } else {
+  } else if (turn === "computer") {
     messageEl.innerText = MESSAGES.cTurn;
   }
 }
@@ -179,6 +180,7 @@ function playerClick(event) {
     }, 5000);
   } else {
     document.getElementById("board").removeEventListener("click", playerClick);
+    render();
   }
 }
 
@@ -192,14 +194,12 @@ function computerMove() {
     let computerGuess = rowIndex * 10 + colIndex;
     computerGuesses.push(computerGuess);
     isHit(rowIndex, colIndex, playerBoard.board, 1, computerHits);
+    checkWinner(playerHits, PLAYERS.computer);
     turn = PLAYERS.player;
     setTimeout(() => {
       render();
     }, 3000);
     document.getElementById("board").addEventListener("click", playerClick);
-    // console.log(rowIndex);
-    // console.log(colIndex);
-    // console.log("computer Guess", computerGuess);
     console.log("guesses array", computerGuesses);
     console.log("player board", playerBoard);
   } else {
@@ -246,29 +246,11 @@ function isHit(rowIndex, colIndex, board, target, turnHits) {
     renderBoard();
   } else if (board[rowIndex][colIndex] === target) {
     messageEl.innerText = MESSAGES.hit;
-    board[rowIndex][colIndex] = "hit";
+    board[rowIndex][colIndex] = -2;
     turnHits.push(1);
     console.log(turnHits);
     renderBoard();
   }
-}
-
-function isSunk(squareIndex) {
-  let hitCoordinate = squareIndex;
-  // let dinghyLocation = COMPUTER_SHIPS.dinghy.location;
-  for (i = 0; i < COMPUTER_SHIPS.dinghy.length; i++) {
-    if (squareIndex === COMPUTER_SHIPS.dinghy.location[i]) {
-      COMPUTER_SHIPS.dinghy.hitCount++;
-      if (COMPUTER_SHIPS.dinghy.hitCount === COMPUTER_SHIPS.dinghy.length) {
-        messageEl.innerText = MESSAGES.sunk;
-        return;
-      }
-    } else {
-      return;
-    }
-  }
-  console.log(dinghyLocation);
-  console.log(hitCoordinate);
 }
 
 //init playerBoard and computer board
@@ -316,13 +298,14 @@ function renderComputerBoard() {
         cellEl.style.backgroundColor = "beige";
       } else if (cellValue === -1) {
         cellEl.style.backgroundColor = "blue";
-      } else if (cellValue === "hit") {
+      } else if (cellValue === -2) {
         cellEl.style.backgroundColor = "red";
       }
     });
   });
 }
 
+//checks for winner
 function checkWinner(turnHits, player) {
   let hits = 0;
   for (i = 0; i < turnHits.length; i++) {
@@ -336,19 +319,21 @@ function checkWinner(turnHits, player) {
   }
   console.log(hits);
 }
-console.log(PLAYER_SHIPS.dinghy.location);
-var shipLocation = PLAYER_SHIPS;
 
-// let hitCount = 0;
-// for (let board of Object.values(computerBoard)) {
-//   for (i = 0; i < 10; i++) {
-//     for (j = 0; j < 10; j++) {
-//       if (board[i][j] === 2) {
-//         hitCount = hitCount + 1;
-//         return hitCount;
+// function isSunk(squareIndex) {
+//   let hitCoordinate = squareIndex;
+//   // let dinghyLocation = COMPUTER_SHIPS.dinghy.location;
+//   for (i = 0; i < COMPUTER_SHIPS.dinghy.length; i++) {
+//     if (squareIndex === COMPUTER_SHIPS.dinghy.location[i]) {
+//       COMPUTER_SHIPS.dinghy.hitCount++;
+//       if (COMPUTER_SHIPS.dinghy.hitCount === COMPUTER_SHIPS.dinghy.length) {
+//         messageEl.innerText = MESSAGES.sunk;
+//         return;
 //       }
+//     } else {
+//       return;
 //     }
 //   }
-//   console.log("in board loop", board);
-//   console.log(hitCount);
+//   console.log(dinghyLocation);
+//   console.log(hitCoordinate);
 // }

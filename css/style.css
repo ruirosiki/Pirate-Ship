@@ -20,11 +20,6 @@ body {
         ". . . . . . .";
 }
 
-/* .background-image {
-    background: url(/Pirate-Ship/images/map-background.jpeg) no-repeat center center fixed;
-    background-size: cover;
-} */
-
 header {
     font-size: 600%;
     height: 75px;
@@ -72,7 +67,6 @@ header {
 #instructions {
     grid-area: c;
     margin-left: 10%;
-    /* margin: auto; */
     font-size: 1.5em;
     font-weight: bolder;
     align-content: end;
@@ -103,8 +97,7 @@ h3 {
     background-color: rgb(182, 135, 64);
     justify-self: center;
     align-self: start;
-    /* margin-top: 6vmin;
-    margin-bottom: 3vmin; */
+    margin-top: -10%;
     font-size: 3vmin;
     color: antiquewhite;
     font: 'charmonman';

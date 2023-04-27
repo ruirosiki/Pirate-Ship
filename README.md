@@ -1,13 +1,15 @@
 # Pirate Ships
 
-A thematic pirates version of the classic strategy game battleship. Players will play against the computer to try and sink the computers pirate ships before the computer can sink their pirate ships.
+It's the early 18th century and your band of pirates is under attack by another wily band of pirates. Battle on the high seas against a computer opponent to sink all of their pirate ships before the computer sends all of yours to Davy Jones' Locker. Take aim at 4 different sized pirate ships and be on the lookout for the most famous pirate ship of all, the dreaded Queen Anne's Revengec captained by Blackbeard.
 
 # Sreenshots
 
 ![Main Sreen](https://i.imgur.com/83F9kqV.png)
-![Main Screen](https://i.imgur.com/yUwWnkH.jpg)
-![Play Screen](https://i.imgur.com/Xp58f7P.jpg)
-![Final Screen](https://i.imgur.com/KV0ZDqs.jpg)
+![Miss](https://i.imgur.com/pANi8Dq.png)
+![Hit](https://i.imgur.com/zavYcdI.png)
+![Computer Turn](https://i.imgur.com/I11RBmR.png)
+![Player Wins](https://i.imgur.com/90SUejK.png)
+![Play Again](https://i.imgur.com/bobz4D2.png)
 
 # Technologies Used
 
@@ -26,6 +28,8 @@ The player's and computer's ships are randomly placed at the beginning of the ga
 - [ ] Tracking whether a ship is sunk
 - [ ] Ability for players to place battleships
 - [ ] Ability to play against another player
-- [ ] Updated visuals to make the game more visually appealing
-- [ ] Find treasure feature to heal one hit on battleship
-- [ ] Continue turn feature that allows the player or computer to continue guessing a miss is registered
+- [ ] Update player and computer move visuals to images
+- [ ] Continue turn feature that allows the player or computer to continue guessing when a hit is registered
+- [ ] Incorporate vertical placement function
+- [ ] Allow player to set board size
+- [ ] Allow player to choose how many and what size ships are in play

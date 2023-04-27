@@ -8,6 +8,7 @@ class Ship {
     this.location = [];
   }
 }
+
 // players constant
 const PLAYERS = {
   player: "player",
@@ -37,8 +38,7 @@ const COMPUTER_SHIPS = {
   queenAnnesRevenge: new Ship(5, 0, false),
 };
 
-//defines a class for the board
-//allows creation of separate boards (computer and player or eventually player1 and player2)
+//define a class for the board
 class Board {
   constructor() {
     this.board = [
@@ -57,8 +57,7 @@ class Board {
 }
 
 //win condition
-//eventually make this dynamic by determining the total max hits by calculating the total number of ships lengths
-const MAX_HITS = 1;
+const MAX_HITS = 2;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -106,7 +105,7 @@ function init() {
   render();
 }
 
-//render the DOM elements
+//render the game elements
 function render() {
   renderTurnOrder();
   renderCleanUp();
@@ -115,7 +114,7 @@ function render() {
   renderPlayAgain();
 }
 
-//update dom board to render visual board based on turn
+//update messgage based on turn
 function renderBoard() {
   if (turn === "player") {
     renderComputerBoard();
@@ -123,6 +122,8 @@ function renderBoard() {
     renderPlayerBoard();
   }
 }
+
+//render the winner message
 function renderWinner() {
   if (winner === "player") {
     messageEl.innerText = MESSAGES.pWin;
@@ -131,10 +132,20 @@ function renderWinner() {
   }
 }
 
-//render play again button
-function renderPlayAgain() {
-  // playAgainButton.style.visibility = winner ? "visible" : "hidden";
+function renderPlayAgainMessage() {
+  if (winner !== "") {
+    messageEl.innerText = MESSAGES.playAgain;
+  }
 }
+
+//render play again button and play again message
+function renderPlayAgain() {
+  playAgainButton.style.visibility = winner ? "visible" : "hidden";
+  setTimeout(() => {
+    renderPlayAgainMessage();
+  }, 4500);
+}
+
 //update message with turn order
 function renderTurnOrder() {
   if (turn === "player") {
@@ -144,7 +155,7 @@ function renderTurnOrder() {
   }
 }
 
-//handles player click -- getting the square index correctly
+//handles player click
 function playerClick(event) {
   const squareIndex = boardEls.indexOf(event.target);
   let rowIndex = (squareIndex - (squareIndex % 10)) / 10;
@@ -156,18 +167,17 @@ function playerClick(event) {
     turn = PLAYERS.computer;
     setTimeout(() => {
       render();
-    }, 3000);
+    }, 2500);
     setTimeout(() => {
       computerMove();
-    }, 5000);
+    }, 4500);
   } else {
     document.getElementById("board").removeEventListener("click", playerClick);
     render();
   }
 }
 
-//computer move - working - need to add logic to not guess same square twice.
-//want to add logic so computer will choose a square relative to successful hit
+//computer move
 function computerMove() {
   if (winner === "") {
     let rowIndex = Math.floor(Math.random() * 10);
@@ -179,17 +189,12 @@ function computerMove() {
     turn = PLAYERS.player;
     setTimeout(() => {
       render();
-    }, 3000);
+    }, 2500);
     document.getElementById("board").addEventListener("click", playerClick);
-    console.log("guesses array", computerGuesses);
-    console.log("player board", playerBoard);
-  } else {
-    document.getElementById("board").removeEventListener("click", playerClick);
   }
 }
-console.log(computerBoard);
+
 //randomly places 4 ships in a horizontal direction
-//small bug: will randomly skip placing ship if too many tries
 function horizontalPlacement(board, ship, squareValue) {
   let colCoordinate = Math.floor(Math.random() * 10);
   let rowCoordinate = Math.floor(Math.random() * 10);
@@ -225,7 +230,6 @@ function isHit(rowIndex, colIndex, board, target, turnHits) {
     messageEl.innerText = MESSAGES.hit;
     board[rowIndex][colIndex] = -2;
     turnHits.push(1);
-    console.log(turnHits);
     renderBoard();
   }
 }
@@ -267,6 +271,7 @@ function renderPlayerBoard() {
     });
   });
 }
+
 function renderComputerBoard() {
   computerBoard.board.forEach((rowArray, squareIndex) => {
     rowArray.forEach((cellValue, colIndex) => {
@@ -284,13 +289,14 @@ function renderComputerBoard() {
     });
   });
 }
+
 function renderCleanUp() {
   neutralBoard.board.forEach((rowArray, squareIndex) => {
     rowArray.forEach((cellValue, colIndex) => {
       const cellId = `s${squareIndex}${colIndex}`;
       const cellEl = document.getElementById(cellId);
       if (cellValue === null) {
-        cellEl.style.backgroundColor = "beige";
+        cellEl.style.backgroundColor = "transparent";
       }
     });
   });
@@ -308,5 +314,4 @@ function checkWinner(turnHits, player) {
       }
     }
   }
-  console.log(turnHits);
 }

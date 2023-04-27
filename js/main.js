@@ -97,6 +97,7 @@ const MESSAGES = {
 //STATE VARIABLES
 let playerBoard;
 let computerBoard;
+let neutralBoard;
 let turn;
 let winner;
 // let shipLocation;
@@ -119,6 +120,7 @@ init();
 function init() {
   initPlayerBoard();
   initComputerBoard();
+  neutralBoard = new Board();
   turn = PLAYERS.player;
   winner = "";
   render();
@@ -127,6 +129,7 @@ function init() {
 //render the DOM elements
 function render() {
   renderTurnOrder();
+  renderCleanUp();
   renderBoard();
   renderWinner();
   renderPlayAgain();
@@ -300,6 +303,17 @@ function renderComputerBoard() {
         cellEl.style.backgroundColor = "blue";
       } else if (cellValue === -2) {
         cellEl.style.backgroundColor = "red";
+      }
+    });
+  });
+}
+function renderCleanUp() {
+  neutralBoard.board.forEach((rowArray, squareIndex) => {
+    rowArray.forEach((cellValue, colIndex) => {
+      const cellId = `s${squareIndex}${colIndex}`;
+      const cellEl = document.getElementById(cellId);
+      if (cellValue === null) {
+        cellEl.style.backgroundColor = "beige";
       }
     });
   });

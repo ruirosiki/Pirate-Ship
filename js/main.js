@@ -14,28 +14,6 @@ const PLAYERS = {
   computer: "computer",
 };
 
-//testing refactor
-// const PLAYERS = {
-//   player: {
-//     name: "player",
-//     ships: [
-//       { dinghy: new Ship(2, 0, false) },
-//       { sloop: new Ship(3, 0, false) },
-//       { galleon: new Ship(4, 0, false) },
-//       { queenAnnesRevenge: new Ship(5, 0, false) },
-//     ],
-//   },
-//   computer: {
-//     name: "computer",
-//     ships: [
-//       { dinghy: new Ship(2, 0, false) },
-//       { sloop: new Ship(3, 0, false) },
-//       { galleon: new Ship(4, 0, false) },
-//       { queenAnnesRevenge: new Ship(5, 0, false) },
-//     ],
-//   },
-// };
-
 //determines the board squares status
 const BOARD_SQUARE = {
   0: null, //empty square
@@ -100,7 +78,6 @@ let computerBoard;
 let neutralBoard;
 let turn;
 let winner;
-// let shipLocation;
 let computerGuesses = [];
 let playerHits = [0];
 let computerHits = [0];
@@ -171,7 +148,6 @@ function playerClick(event) {
   let colIndex = squareIndex % 10;
   isHit(rowIndex, colIndex, computerBoard.board, 2, playerHits);
   document.getElementById("board").removeEventListener("click", playerClick);
-  console.log(computerBoard.board);
   checkWinner(playerHits, PLAYERS.player);
   if (winner === "") {
     turn = PLAYERS.computer;
@@ -188,7 +164,6 @@ function playerClick(event) {
 }
 
 //computer move - working - need to add logic to not guess same square twice.
-//need to fix the time outs so the game flows better.
 //want to add logic so computer will choose a square relative to successful hit
 function computerMove() {
   if (winner === "") {
@@ -236,10 +211,6 @@ function horizontalPlacement(board, ship, squareValue) {
     }
   } else horizontalPlacement(board, ship, squareValue);
 }
-console.log("pboard", playerBoard);
-console.log("cboard", computerBoard);
-// console.log(PLAYER_SHIPS.dinghy.location);
-// console.log(COMPUTER_SHIPS.dinghy);
 
 //ship hit
 function isHit(rowIndex, colIndex, board, target, turnHits) {
@@ -272,7 +243,7 @@ function initComputerBoard() {
   horizontalPlacement(computerBoard.board, COMPUTER_SHIPS.queenAnnesRevenge, 2);
 }
 
-//render playerBoard and computerBoard
+//render playerBoard, computerBoard, and neutral board between turns
 function renderPlayerBoard() {
   playerBoard.board.forEach((rowArray, squareIndex) => {
     rowArray.forEach((cellValue, colIndex) => {
@@ -331,23 +302,4 @@ function checkWinner(turnHits, player) {
       }
     }
   }
-  console.log(hits);
 }
-
-// function isSunk(squareIndex) {
-//   let hitCoordinate = squareIndex;
-//   // let dinghyLocation = COMPUTER_SHIPS.dinghy.location;
-//   for (i = 0; i < COMPUTER_SHIPS.dinghy.length; i++) {
-//     if (squareIndex === COMPUTER_SHIPS.dinghy.location[i]) {
-//       COMPUTER_SHIPS.dinghy.hitCount++;
-//       if (COMPUTER_SHIPS.dinghy.hitCount === COMPUTER_SHIPS.dinghy.length) {
-//         messageEl.innerText = MESSAGES.sunk;
-//         return;
-//       }
-//     } else {
-//       return;
-//     }
-//   }
-//   console.log(dinghyLocation);
-//   console.log(hitCoordinate);
-// }

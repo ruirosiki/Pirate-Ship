@@ -57,7 +57,7 @@ class Board {
 }
 
 //win condition
-const MAX_HITS = 2;
+const MAX_HITS = 1;
 
 //messages object to store messageEl content
 const MESSAGES = {
@@ -316,3 +316,4 @@ function checkWinner(turnHits, player) {
     }
   }
 }
+console.log(computerBoard);

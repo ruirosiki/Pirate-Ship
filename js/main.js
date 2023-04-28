@@ -57,7 +57,7 @@ class Board {
 }
 
 //win condition
-const MAX_HITS = 1;
+const MAX_HITS = 14;
 
 //messages object to store messageEl content
 const MESSAGES = {

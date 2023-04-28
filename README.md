@@ -1,6 +1,6 @@
 # Pirate Ships
 
-It's the early 18th century and your band of pirates is under attack by another wily band of pirates. Battle on the high seas against a computer opponent to sink all of their pirate ships before the computer sends all of yours to Davy Jones' Locker. Take aim at 4 different sized pirate ships and be on the lookout for the most famous pirate ship of all, the dreaded Queen Anne's Revengec captained by Blackbeard.
+It's the early 18th century and your band of pirates is under attack by another wily band of pirates. Battle on the high seas against a computer opponent to sink all of their pirate ships before the computer sends all of yours to Davy Jones' Locker. Take aim at 4 different sized pirate ships and be on the lookout for the most famous pirate ship of all, the Queen Anne's Revenge captained by the dreaded Blackbeard.
 
 # Sreenshots
 

@@ -4,9 +4,10 @@
 
 body {
     background: url(https://i.imgur.com/C5HnVYR.jpg) no-repeat center center fixed;
+    /* background: url(/images/background-image.jpeg) no-repeat center center fixed; */
     background-size: 100% 110%;
 
-    /* background-color: beige; */
+    background-color: beige;
     font-family: 'Charmonman';
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -26,7 +27,7 @@ header {
     grid-area: a;
     margin-left: 10%;
     align-self: center;
-    text-shadow: rgb(216, 136, 16) 1px 0 10px;
+    text-shadow: rgb(99, 60, 2) 1px 0 10px;
 }
 
 #tagline {
@@ -35,7 +36,7 @@ header {
     margin-left: 12%;
     align-self: bottom;
     color: black;
-    text-shadow: rgb(216, 136, 16) 1px 0 10px;
+    text-shadow: rgb(99, 60, 2) 1px 0 10px;
 }
 
 #message {
@@ -72,7 +73,7 @@ header {
     align-content: end;
     font-weight: bolder;
     color: black;
-    text-shadow: rgb(216, 136, 16) 1px 0 10px;
+    text-shadow: rgb(99, 60, 2) 1px 0 10px;
 }
 
 ol {

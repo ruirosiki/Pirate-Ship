@@ -32,7 +32,7 @@ header {
 #tagline {
     grid-area: f;
     margin-top: 7%;
-    margin-left: 14%;
+    margin-left: 12%;
     align-self: bottom;
     color: black;
     text-shadow: rgb(216, 136, 16) 1px 0 10px;

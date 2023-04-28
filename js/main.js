@@ -144,6 +144,7 @@ function renderPlayAgain() {
   setTimeout(() => {
     renderPlayAgainMessage();
   }, 4500);
+  document.getElementById("board").addEventListener("click", playerClick);
 }
 
 //update message with turn order

@@ -263,7 +263,7 @@ function renderPlayerBoard() {
       if (cellValue === null) {
         cellEl.style.backgroundColor = "transparent";
       } else if (cellValue === 1) {
-        cellEl.style.backgroundColor = "brown";
+        cellEl.style.backgroundColor = "#b8860b";
       } else if (cellValue === -1) {
         cellEl.style.backgroundColor = "blue";
       } else if (cellValue === -2) {
